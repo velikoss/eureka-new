@@ -27,11 +27,11 @@ export const actions = {
             })
         })).json();
         if (!user.success) {
-            console.log(user);
+            // console.log(user);
             return fail(400, {error: user.error})
         } else {
             let client = getClient(session!);
-            console.log(user);
+            // console.log(user);
             client!.user = user.student as User;
             client!.user!.email = email?.valueOf() as string;
             updateClient(session!, client!);
