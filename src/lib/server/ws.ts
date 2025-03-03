@@ -144,7 +144,6 @@ export function sendMessageToWebSocketServer(
         console.error('Invalid client ID');
         return;
     }
-
     const ws = getWebSocketClient(id);
     if (ws && ws.readyState === WebSocket.OPEN) {
         let parsedMessage;

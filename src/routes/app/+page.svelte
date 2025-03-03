@@ -1,4 +1,5 @@
 <script lang="ts">
+    import News from '$lib/News.svelte';
     import Unit from '$lib/Unit.svelte';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
@@ -15,7 +16,7 @@
     });
 </script>
 
-<div class="w-screen flex flex-row p-2">
+<div class="max-w-screen min-w-[600px] flex flex-row p-2 gap-4">
     <div class="w-1/2 flex flex-col">
         {#each data.units as unit }
             <Unit section={unit}>
@@ -34,6 +35,11 @@
                     </div>
                 {/each}
             </Unit>
+        {/each}
+    </div>
+    <div class="w-1/2 flex flex-col">
+        {#each data.news as news}
+            <News title={news.title} content={news.content} date_add={news.date_add}></News>
         {/each}
     </div>
 </div>

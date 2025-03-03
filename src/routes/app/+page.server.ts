@@ -1,4 +1,4 @@
-import type { HomeTask, Section } from "$lib";
+import type { HomeTask, News, Section } from "$lib";
 import { encodeJWT, decodeJWT } from "$lib/server/jwt";
 import { getWebSocketClient, connectToWebSocketServer, sendMessageToWebSocketServer, getClient } from "$lib/server/ws";
 import { redirect } from "@sveltejs/kit";
@@ -17,6 +17,10 @@ export async function load({ cookies, fetch }) {
                         client.version = responseData.data as number;
                         _client = client;	
                     });
+
+					let _news = (await fetch("/api/loadNews"));
+					let newsJSON = (await _news.json())
+					let news = newsJSON.success ? (newsJSON.data as News[]) : [];
 
                     let _units = (await fetch("/api/getUnitsList"));
                     let unitsJSON = (await _units.json());
@@ -51,6 +55,7 @@ export async function load({ cookies, fetch }) {
                         sessionID: session,
                         client: _client,
                         units: combinedData,
+						news: news
                     });
                 });
                 return response;
