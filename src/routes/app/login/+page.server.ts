@@ -1,5 +1,5 @@
 import { decodeJWT } from '$lib/server/jwt';
-import { getClient, getWebSocketClient, sendMessageToWebSocketServer, updateClient, type User } from '$lib/server/ws';
+import { closeWebSocketConnection, getClient, getWebSocketClient, sendMessageToWebSocketServer, updateClient, type User } from '$lib/server/ws';
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
@@ -40,13 +40,10 @@ export const actions = {
 	},
 } satisfies Actions;
 
-export async function load({ cookies }) { 
-	const session = cookies.get('sessionID') as string;
-    if (session) {
-		var _id = decodeJWT(session); 
-	 	if (_id && getClient(session)) {
-            return;
-        }
+export async function load({url, cookies}) { 
+	if (url.searchParams.get("logout")) {
+        closeWebSocketConnection(cookies.get("sessionID")??"0");
+        cookies.delete("sessionID", {path: "/"});
+        throw redirect(307, "/app");
     }
-    return redirect(307, "/app");
 }

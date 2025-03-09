@@ -33,7 +33,7 @@
         <div class="mt-1 w-full border-t border-black pt-2">
             <button
                 on:click={toggleNested}
-                class="text-sm w-full text-left font-semibold text-black hover:text-gray-500 focus:outline-none"
+                class="text-sm w-full text-left underline text-black hover:text-gray-500 focus:outline-none"
             >
                 {showNested ? '< Скрыть содержание' : '> Показать содержание'}
             </button>

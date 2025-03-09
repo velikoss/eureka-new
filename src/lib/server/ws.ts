@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import { decodeJWT } from './jwt';
+import { decode } from 'jsonwebtoken';
 
 type WebSocketClientMetadata = {
     ws: WebSocket | null;
@@ -34,6 +35,8 @@ export function updateClient(clientId: string, newClient: WebSocketClientMetadat
 }
 
 export function getClient(clientId: string): WebSocketClientMetadata | undefined {
+    if (clientId === "0") return;
+
     const re = decodeJWT(clientId);
     if (!re) {
         return;
@@ -186,9 +189,12 @@ export function getLastMessageReceivedTime(clientId: string): number | null {
 }
 
 export function closeWebSocketConnection(clientId: string): void {
-    const clientMetadata = wsClients.get(clientId);
+    if (clientId === "0") return;
+
+    const jwt = decodeJWT(clientId);
+    const clientMetadata = wsClients.get(jwt!);
     if (clientMetadata) {
-        clientMetadata.ws.close();
+        clientMetadata.ws?.close();
         wsClients.delete(clientId);
         // console.log(`WebSocket connection for client ${clientId} closed.`);
     } else {
