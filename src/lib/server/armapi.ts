@@ -9,7 +9,7 @@ const module = await WebAssembly.instantiate(wasm!.buffer).catch(e => {
     console.log(e)
     return undefined
 });
-const neoscrypt = module ? new NeoScrypt(module) : undefined;
+const neoscrypt = module ? new NeoScrypt((module as any).instance) : undefined;
 
 export function moduleState() {
     return neoscrypt !== undefined;
@@ -17,8 +17,13 @@ export function moduleState() {
 
 export function signRequest(id: any, hash: string): string {
     if (hash.length > 32) {
+        console.log("yayayaya");
         return "";
     }
-
-    throw new Error('Function not implemented.');
+    const textEncoder = new TextEncoder();
+    const hashUtf8 = textEncoder.encode(hash);
+    const inputData = new Uint32Array([id, 0, ...new Uint32Array(hashUtf8.buffer)]);
+    const hashbrown = neoscrypt?.neoscrypt(new Uint8Array(inputData.buffer));
+    console.log(hashbrown);
+    return hashbrown!;
 }

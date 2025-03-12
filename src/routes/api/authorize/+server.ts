@@ -19,7 +19,7 @@ export async function POST({ request, cookies }) {
             );
         } catch (e: any) {
             error(500, {
-                "message": "Error on server side"
+                "message": `Error on server side: ${e}`
             });
         }
     }

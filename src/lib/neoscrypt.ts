@@ -13,17 +13,16 @@ export default class NeoScrypt {
 		this.#instance = instance as any;
 	}
 
-	neoscrypt(input: string): string {
+	neoscrypt(input: Uint8Array): string {
 		const resultPtr = this.#instance.exports._bumpalloc_push(32);
-		const textEncoder = new TextEncoder();
-		const test = textEncoder.encode(input);
-		const testPtr = this.#instance.exports._bumpalloc_push(test.length);
-		(new Uint8Array(this.#instance.exports.memory.buffer, testPtr, test.length)).set(test);
+		// const textEncoder = new TextEncoder();
+		// const test = textEncoder.encode(input);
+		const testPtr = this.#instance.exports._bumpalloc_push(input.length);
+		(new Uint8Array(this.#instance.exports.memory.buffer, testPtr, input.length)).set(input);
 		this.#instance.exports.neoscrypt(testPtr, resultPtr, 0x80000620);
-		this.#instance.exports._bumpalloc_pop(test.length);
+		this.#instance.exports._bumpalloc_pop(input.length);
 		const result = new Uint8Array(this.#instance.exports.memory.buffer, resultPtr, 32);
-		const resultEndIdx = result.findIndex(x => x == 0);
-		const resultStr = [...result.slice(0, resultEndIdx)].map(x => x.toString(16)).join("");
+		const resultStr = [...result].map(x => x.toString(16)).join("");
 		this.#instance.exports._bumpalloc_pop(32);
 		return resultStr;
 	}

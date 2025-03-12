@@ -28,7 +28,7 @@ export const actions = {
             })
         })).json();
         if (!user.success) {
-            // console.log(user);
+            console.log(user);
             return fail(400, {error: user.error})
         } else {
             let client = getClient(session!);
