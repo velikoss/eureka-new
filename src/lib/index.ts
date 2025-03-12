@@ -1,4 +1,5 @@
 // place files you want to import through the `$lib` alias in this folder.
+
 export interface NestedSection {
     rowid: number;
     section_name: string;
@@ -168,6 +169,17 @@ export const _taskStatusNames = [
     'У куратора',
     'Сгорела'
 ];
+
+export const taskStatusColors = {
+    1: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200', // Не выполнено
+    2: 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200', // На проверке
+    3: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200', // Доработать
+    4: 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200', // Сдано
+    5: 'bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-200', // Доработать (оценено)
+    6: 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200', // На проверке (оценено)
+    7: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200', // У куратора
+    8: 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200', // Сгорела
+};
 
 export interface News {
     title: string;

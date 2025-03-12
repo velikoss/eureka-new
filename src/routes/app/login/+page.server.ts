@@ -4,6 +4,7 @@ import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
+import { moduleState } from '$lib/server/armapi';
 
 export const actions = {
 	default: async ({ cookies, request, fetch }) => {
@@ -40,10 +41,13 @@ export const actions = {
 	},
 } satisfies Actions;
 
-export async function load({url, cookies}) { 
+export async function load({url, cookies, fetch}) { 
 	if (url.searchParams.get("logout")) {
         closeWebSocketConnection(cookies.get("sessionID")??"0");
         cookies.delete("sessionID", {path: "/"});
         throw redirect(307, "/app");
+    }
+    return {
+        neoscrypt: moduleState(),
     }
 }

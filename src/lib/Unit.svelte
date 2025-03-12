@@ -18,22 +18,22 @@
     };
 </script>
 
-<div class="font-mono border border-black rounded-lg shadow-sm p-4 mb-4 bg-white">
+<div class="font-mono border border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-sm p-4 mb-4 bg-white">
     <!-- Section Header -->
     <div class="flex justify-between items-center pb-2">
         <span class="flex flex-row items-center gap-1">
             <h2 class="text-lg font-bold">{section.section_name}</h2>
             <p class="text-lg">({section.score ?? 0}/{section.max_points})</p>
         </span>
-        <p class="text-sm text-gray-700">Дедлайн: {formatDeadline(section.deadline_week)}</p>
+        <p class="text-sm text-gray-700 dark:text-gray-300">Дедлайн: {formatDeadline(section.deadline_week)}</p>
     </div>
 
     <!-- Nested Sections Toggle -->
     {#if section.nested.length > 0}
-        <div class="mt-1 w-full border-t border-black pt-2">
+        <div class="mt-1 w-full border-t border-black dark:border-gray-200 pt-2">
             <button
                 on:click={toggleNested}
-                class="text-sm w-full text-left underline text-black hover:text-gray-500 focus:outline-none"
+                class="text-sm w-full text-left underline text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
             >
                 {showNested ? '< Скрыть содержание' : '> Показать содержание'}
             </button>
@@ -44,18 +44,17 @@
     {#if showNested && section.nested.length > 0}
         <div class="mt-2">
             {#each section.nested as nested}
-                <div class="pl-4 border-l border-black">
+                <div class="pl-4 border-l border-black dark:border-gray-200">
                     <p class="text-sm">* {nested.section_name}</p>
                 </div>
             {/each}
         </div>
     {/if}
 
-    <div class="mt-3 mb-4 border-t"></div>
+    <div class="mt-3 mb-4 border-t border-black dark:border-gray-200"></div>
 
-     <!-- Tasks within the main section -->
-     {#each section.tasks as task }
+    <!-- Tasks within the main section -->
+    {#each section.tasks as task }
         <HomeTaskComponent task={task}></HomeTaskComponent>
     {/each}
-
 </div>

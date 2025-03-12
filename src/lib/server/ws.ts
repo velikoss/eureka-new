@@ -17,6 +17,7 @@ export interface User {
     student_suname: string;
     student_patronymic: string;
     email: string | null;
+    st: number | undefined;
 }
 
 type WebSocketClientMap = Map<string, WebSocketClientMetadata>;

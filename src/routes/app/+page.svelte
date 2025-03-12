@@ -7,17 +7,24 @@
 
     let { data } = $props();
     let st = $state(1);
+
     onMount(() => {
         setInterval(async () => {
-            st = (parseInt(await (await fetch("/api/readyState")).text()));
+            st = (parseInt(await (await fetch("/api/readyState")).text()??0));
+            data.locals.user.st = st;
             if (st !== 1) {
-                goto("/app/login");
+                goto("/app/login?renewToken=true");
             }
         }, 3000);
     });
 </script>
 
+
 <main class="font-mono">
+    <header class="h-[5.6vh] border-b flex flex-row items-center justify-between px-3">
+        <strong class="text-xl">Eureka<sup>beta</sup></strong>
+        <div>{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs">(Eureka beta, Aurora API v170)</span></div>
+    </header>
     <div class="max-w-screen min-w-[600px] flex flex-row p-2 gap-4">
         <div class="w-1/2 flex flex-col">
             {#each data.units as unit }

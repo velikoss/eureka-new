@@ -1,22 +1,20 @@
 <script lang="ts">
     import { Tools, ToolsLang } from "$lib";
-    import { createEventDispatcher, onMount } from 'svelte';
+    import { onMount } from 'svelte';
 
-    let props = $props();
+    let {tools, deflate} = $props();
     let selectedToolId: number | null = $state(null);
 
     onMount(() => {
-        selectTool(props.tools[0].id);
+        selectTool(tools[0].id);
     });
 
     function selectTool(toolId: number) {
         selectedToolId = toolId;
         // Emit the selected tool ID to the parent
-        dispatch('toolSelected', { toolId });
+        deflate(toolId);
     }
 
-    // Create a custom event dispatcher
-    const dispatch = createEventDispatcher();
 </script>
 
 <style>
@@ -26,7 +24,6 @@
         background: #000000;
         background-clip: text;
         -webkit-background-clip: text;
-        color: transparent;
         animation: fly 0.5s 1 ease;
     }
 
@@ -52,7 +49,7 @@
         bottom: 5px;
         width: 0;
         height: 1px;
-        background: #000000;
+        background: var(--dark, "#000000");
         transition: width 0.3s ease;
     }
 
@@ -62,19 +59,19 @@
 </style>
 
 <div class="px-2 tools flex flex-row md:flex-col gap-1 md:gap-2">
-    {#each props.tools as tool}
-        <div
+    {#each tools as tool}
+        <button
             class="border w-full h-[3.6vh] md:h-fit rounded-md flex items-center px-2 cursor-pointer text-nowrap"
-            on:click={() => selectTool(tool.id)}
+            onclick={() => selectTool(tool.id)}
         >
             <p>
                 {#if selectedToolId === tool.id}
-                    <span class="selected-arrow">></span>
+                    <span class="selected-arrow text-black dark:text-white">></span>
                 {/if}
                 <span class="tool-text {selectedToolId === tool.id ? 'selected' : ''}">
                     {ToolsLang[Tools[tool.id - 1]]}
                 </span>
             </p>
-        </div>
+        </button>
     {/each}
 </div>

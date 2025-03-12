@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { _taskStatusNames, type HomeTask } from '$lib';
+    import { _taskStatusNames, taskStatusColors, type HomeTask } from '$lib';
 
     export let task: HomeTask;
 
@@ -8,18 +8,21 @@
         return _taskStatusNames[status];
     };
 
-    // Helper function to format the score
-    const formatScore = (score: any) => {
-        return score !== null && score !== undefined ? score : 'N/A';
+    // Helper function to get the appropriate colors for the task status
+    const getTaskColors = (status: number) => {
+        return taskStatusColors[status] || 'bg-white dark:bg-black text-black dark:text-white';
     };
 </script>
 
-<a href={task.status%4==0?"javascript: void(0)":`/app/task/${task.id}`}>
-    <div class="font-mono border border-black rounded-lg shadow-sm p-4 mb-4 {(task.status===4)?"bg-green-100":(task.status===8)?"bg-red-100":(task.status===3)?"bg-pink-100":"bg-white"}">
+<a href={task.status % 4 == 0 ? "javascript: void(0)" : `/app/task/${task.id}`}>
+    <div
+        class="font-mono border border-black dark:border-gray-200 rounded-lg shadow-sm p-4 mb-4
+               {getTaskColors(task.status)}"
+    >
         <!-- Task Header -->
-        <div class="flex justify-between items-center border-black">
+        <div class="flex justify-between items-center">
             <h2 class="text-lg font-bold">{task.name}</h2>
-            <p class="text-sm text-gray-700">Статус: {formatStatus(task.status)}</p>
+            <p class="text-sm">Статус: {formatStatus(task.status)}</p>
         </div>
     </div>
 </a>

@@ -16,7 +16,7 @@
         if (combinedContent.includes("Патриотизм начинается")) {
             date_add = (Date.now() / 1000).toString();
             title = "Сообщение от разработчиков Эврики";
-            return `Подпишитесь на наш телеграмм-канал чтобы следить за новыми обновлениями (<a class="text-blue-500 underline" href="https://t.me/acoeureka">тык</a>)<br>Наш Github: <a class="text-blue-500 underline" href="https://github.com/velikoss/eureka">тык</a>`;
+            return `Спасибо, что используете Эвреку! Так как проект находится в ранней стадии зачатия, функционал будет дорабатываться со временем.<br/><br/>Подпишитесь на наш телеграмм-канал чтобы следить за новыми обновлениями (<a class="text-blue-500 underline" href="https://t.me/acoeureka">тык</a>)<br>Наш Github: <a class="text-blue-500 underline" href="https://github.com/velikoss/eureka">тык</a>`;
         }
 
         let _jsdom;
