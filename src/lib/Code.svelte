@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { Task, TaskFile } from "$lib";
-    import { cpp } from "@codemirror/lang-cpp";
+    // import { cpp } from "@codemirror/lang-cpp";
     import { onMount } from "svelte";
-    import CodeMirror from "svelte-codemirror-editor";
+    // import CodeMirror from "svelte-codemirror-editor";
+    import CM from "./CM.svelte";
 
     let {task, deflate}: {task: Task, deflate: any } = $props();
     let filenames: string[] = $state([]);
@@ -93,11 +94,11 @@
 </style>
 
 <div class="code flex flex-row w-full h-full">
-    <div class="fixed top-auto bottom-[5vh] md:top-0 md:bottom-0 md:relative file-picker w-full md:w-64 md:border-r overflow-scroll h-fit md:h-full py-2 px-3 flex flex-row md:flex-col gap-1 md:gap-2 items-center">
-        <p class="p-0 m-0 mr-1 md:mr-0 md:-my-[3.3px]">Файлы</p>
+    <div class="fixed top-auto md:mt-1 bottom-[6.75vh] md:top-0 md:bottom-0 md:relative file-picker w-full md:w-64 md:border-r overflow-scroll h-fit md:h-full py-1 px-3 flex flex-row md:flex-col gap-1 md:gap-2 items-center">
+        <p class="p-0 m-0 mr-1 md:mr-0">Файлы</p>
         {#each filenames as name}
         <button
-            class="border w-full h-[3.6vh] md:h-fit md:py-0.125 rounded-md flex items-center px-2 cursor-pointer text-nowrap"
+            class="border shadow-md w-full h-[4.5vh] md:h-fit md:py-1 md:py-0.125 rounded-md flex items-center px-2 cursor-pointer text-nowrap"
             onclick={() => selectFile(name)}
         >
             <p>
@@ -111,7 +112,7 @@
         </button>
         {/each}
         <button
-            class="border w-full h-[3.6vh] md:h-fit rounded-md flex items-center px-2 cursor-pointer text-nowrap"
+            class="border shadow-md w-full h-[4.5vh] md:h-fit md:py-1 rounded-md flex items-center px-2 cursor-pointer text-nowrap"
             onclick={() => {}}
         >
             <p>
@@ -120,10 +121,11 @@
         </button>
     </div>
     <div class="border-b md:border-b-0 rounded-md h-[calc(100%-5.5vh)] w-full md:w-[calc(100%-16rem)] md:h-full editor">
-        <CodeMirror bind:value={currentFileData} lang={cpp()} on:change={() => {
+        <!-- <CodeMirror bind:value={currentFileData} lang={cpp()} on:change={() => {
             filechange[filenames.indexOf(currentFile)] = true;
         }}>
 
-        </CodeMirror>
+        </CodeMirror> -->
+        <CM bind:value={currentFileData}  />
     </div>
 </div>

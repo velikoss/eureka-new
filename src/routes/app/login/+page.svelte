@@ -1,28 +1,30 @@
 <script lang="ts">
+    import { User, RectangleEllipsis, LogIn, Server, Key } from "@lucide/svelte";
     import type { PageProps } from "../$types";
 
     let { data, form, neoscrypt }: PageProps = $props();
 
 </script>
 
-<div class="w-screen h-screen flex flex-col items-center justify-center font-mono ">
+<div class="w-screen h-screen flex flex-col items-center justify-center">
     {#if form?.error}
-    <div class="error -mt-6 text-center underline flex flex-col items-center justify-center mb-5 w-90 h-16 bg-rose-300 dark:bg-rose-900 text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl">
+    <div class="error -mt-6 text-center shadow-md underline flex flex-col items-center justify-center mb-5 w-90 h-16 bg-rose-300 dark:bg-rose-900 text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl">
         <p>{form?.error}</p>
     </div>
     {/if}
     
-    <form method="POST" class="border w-90 flex flex-col px-6 pb-6 gap-3 rounded-2xl">
-        <p class="relative w-fit text-center text-xl self-center px-2 -top-3.5 bg-white dark:bg-black">Eureka</p>
+    <form method="POST" class="border w-90 flex flex-col px-6 pb-6 gap-3 rounded-2xl shadow-lg">
+        <p class="relative w-fit text-center font-bold text-xl self-center px-2 -top-3.5 bg-white dark:bg-black">Eureka</p>
         <div class="relative">
             <input name="email" type="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
-            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Login (@edu.mirea.ru)</label>
+            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><User/> Login (@edu.mirea.ru)</label>
         </div>
         <div class="relative">
             <input name="password" type="password" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
-            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Password</label>
+            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><RectangleEllipsis /> Password</label>
         </div>
-        <button class="border w-fit px-5 py-1 self-center rounded-md cursor-grab">
+        <button class="border w-fit px-5 py-1 self-center rounded-md cursor-grab flex flex-row items-center justify-center gap-2.5">
+            <LogIn size={16} />
             Log in
         </button>
     </form>
@@ -35,11 +37,16 @@
             <div
                 class="absolute bottom-full left-1/2 px-1 py-0.5
                        transform -translate-x-1/2 mb-0.5
-                       w-max text-sm text-black dark:text-white bg-white dark:bg-black
+                       w-max text-black dark:text-white bg-white dark:bg-black
                        border dark:border-white rounded shadow-lg 
                        opacity-0 group-hover:opacity-100 transition">
-                       Avrora Backend: ArmAPI<br/>
-                       Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
+                       <div class="flex flex-row gap-2.5 items-center justify-start mb-0.5">
+                        <Server size={16}/> Avrora Backend: ArmAPI
+
+                       </div>
+                       <div class="flex flex-row gap-2.5 items-center justify-center">
+                        <Key size={16}/> Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
+                        </div>
             </div>
         </div></div>
 </div>

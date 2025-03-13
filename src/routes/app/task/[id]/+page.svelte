@@ -41,27 +41,33 @@
     }
 </script>
 
-<div class="w-screen h-[4vh] md:h-fit py-2 items-center justify-center flex flex-row">
-    <div class="w-[calc(100%-24px)] flex flex-row px-2 pr-9 -z-10">
-        <strong>Eureka</strong>
-        <Marquee gradient={true} --gradientColor={isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'}>
+<div class="flex flex-col">
+    <div class="w-screen border-b flex flex-row py-1 mb-2.5 px-2 md:px-[10vw] md:pl-[10.5vw] gap-1 pb-1">
+        <strong class="text-xl">Eureka</strong>
+        <Marquee class="font-mono" gradient={true} --gradientColor={isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'}>
             {#each [0,0,0,0] as _}
             <span>{task.name}</span>
             <span>{".".repeat(task.name.length / 2)}</span>
             {/each}
         </Marquee>
+        <a href="/app" class="w-fit text-xl text-start underline z-50">×</a>
     </div>
-    <a href="/app" class="w-fit text-xl text-start underline align-top pr-3">x</a>
-</div>
-<div class="task flex flex-row">
-    <div class="bg-white dark:bg-black taskbar fixed md:relative flex flex-row top-auto bottom-0 w-screen overflow-auto md:flex-col md:w-72 h-[4vh] md:min-h-[96vh] max-h-full">
-        <ToolsBar tools={task.tools} deflate={handleToolSelected} --dark={isDarkMode?"white":"black"} />
-    </div>
-    <div class="taskmenu overflow-scroll mb-[5vh] md:mb-0 w-full h-[91.5vh] md:min-h-[96vh] md:max-h-full md:border-l border-t border-b md:border-b-0 rounded-md md:rounded-b-none">
-        {#if selectedToolId !== null}
-        <!-- <p>{Tools[selectedToolId - 1]}</p> -->
-        {@const Component = getTool()}
-        <Component task={task} dark={isDarkMode}></Component>
-        {/if}
+    <div class="task w-screen md:w-4/5 flex self-center flex-row">
+        <div class="bg-white dark:bg-black taskbar fixed md:relative flex flex-row top-auto bottom-0 w-screen overflow-auto md:flex-col md:w-72 h-[6vh] md:min-h-[96vh] max-h-full">
+            <ToolsBar tools={task.tools} deflate={handleToolSelected} --dark={isDarkMode?"white":"black"} />
+        </div>
+        <div class="taskmenu overflow-scroll mb-[7vh] md:mb-0 w-full h-[88.5vh] md:min-h-[96vh] md:max-h-full border md:border-b-0 rounded-md md:rounded-b-none">
+            {#if selectedToolId !== null}
+            <!-- <p>{Tools[selectedToolId - 1]}</p> -->
+            <svelte:boundary>
+                {@const Component = getTool()}
+                <Component task={task} dark={isDarkMode}></Component>
+
+                {#snippet failed(error, reset)}
+                    <button onclick={reset}>oops! try again {error}</button>
+                {/snippet}
+            </svelte:boundary>
+            {/if}
+        </div>
     </div>
 </div>

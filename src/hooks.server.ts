@@ -6,8 +6,6 @@ import { redirect, type Handle } from "@sveltejs/kit";
 import { v4 } from "uuid";
 
 export const handle: Handle = async ({ event, resolve }) => {   
-    console.log(signRequest(1930703339, "b67498671923dc630f79720ee3c532b1"))
-
     const session = event.cookies.get("sessionID"); 
     const client = getClient(session??"0");
 

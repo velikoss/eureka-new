@@ -4,5 +4,6 @@
 
 <div class="w-full space-y-4 flex flex-col py-2 px-3">
     {@html task.algo_text}
+    <hr>
     {JSON.stringify(task.algo2)}
 </div>

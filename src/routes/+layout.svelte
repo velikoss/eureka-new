@@ -21,12 +21,14 @@
 
 <header>
     <div class="fixed top-6 right-6 flex gap-1">
-		<Widget callback={()=>{}}>
-			<div class="w-5 aspect-square rounded-full {data.locals.user && data.locals.user.st && data.locals.user.st === 1?"bg-green-300":"bg-red-300"} m-1"></div>
-		</Widget>
         <DarkMode/>
 	</div>
 </header>
-<main class="font-mono">
+<style>
+	:root {
+		--system-ui: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	}
+</style>
+<main class="inter">
 	{@render children()}
 </main>

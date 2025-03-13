@@ -49,7 +49,7 @@
         bottom: 5px;
         width: 0;
         height: 1px;
-        background: var(--dark, "#000000");
+        background: var(--dark, "#FFFFFF");
         transition: width 0.3s ease;
     }
 
@@ -61,7 +61,7 @@
 <div class="px-2 tools flex flex-row md:flex-col gap-1 md:gap-2">
     {#each tools as tool}
         <button
-            class="border w-full h-[3.6vh] md:h-fit rounded-md flex items-center px-2 cursor-pointer text-nowrap"
+            class="border w-full h-[5vh] md:h-fit md:py-1 rounded-md flex items-center px-2 cursor-pointer text-nowrap shadow-md"
             onclick={() => selectTool(tool.id)}
         >
             <p>

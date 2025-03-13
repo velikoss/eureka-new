@@ -4,6 +4,7 @@
     import Unit from '$lib/Unit.svelte';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
+    import { LogOut } from '@lucide/svelte';
 
     let { data } = $props();
     let st = $state(1);
@@ -20,12 +21,12 @@
 </script>
 
 
-<main class="font-mono">
-    <header class="h-[5.6vh] border-b flex flex-row items-center justify-between px-3">
-        <strong class="text-xl">Eureka<sup>beta</sup></strong>
-        <div>{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs">(Eureka beta, Aurora API v170)</span></div>
+<main class="flex flex-col items-center">
+    <header class="h-[5.6vh] w-screen px-[calc(10vw)] border-b flex flex-row items-center justify-between">
+        <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong>
+        <div class="flex flex-row gap-1 items-center">{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs"></span> <a href="/app/login?renewToken=true"><LogOut size={18} /></a></div>
     </header>
-    <div class="max-w-screen min-w-[600px] flex flex-row p-2 gap-4">
+    <div class="max-w-4/5 min-w-[600px] flex flex-row p-2 gap-4">
         <div class="w-1/2 flex flex-col">
             {#each data.units as unit }
                 <Unit section={unit}>

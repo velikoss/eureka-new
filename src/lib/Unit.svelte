@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Section, NestedSection, HomeTask } from '$lib';
+    import { Book } from '@lucide/svelte';
     import HomeTaskComponent from './HomeTaskComponent.svelte';
 
     export let section: Section & { tasks: HomeTask[], nested: (NestedSection)[] };
@@ -18,10 +19,11 @@
     };
 </script>
 
-<div class="font-mono border border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-sm p-4 mb-4 bg-white">
+<div class="border border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-md p-4 mb-4 bg-white">
     <!-- Section Header -->
-    <div class="flex justify-between items-center pb-2">
-        <span class="flex flex-row items-center gap-1">
+    <div class="flex justify-between items-center">
+        <span class="flex flex-row items-center gap-1.5">
+            <Book size={18} />
             <h2 class="text-lg font-bold">{section.section_name}</h2>
             <p class="text-lg">({section.score ?? 0}/{section.max_points})</p>
         </span>
@@ -30,10 +32,10 @@
 
     <!-- Nested Sections Toggle -->
     {#if section.nested.length > 0}
-        <div class="mt-1 w-full border-t border-black dark:border-gray-200 pt-2">
+        <div class="w-full border-black dark:border-gray-200 pt-2">
             <button
                 on:click={toggleNested}
-                class="text-sm w-full text-left underline text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
+                class="text-sm w-full text-left transition text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
             >
                 {showNested ? '< Скрыть содержание' : '> Показать содержание'}
             </button>

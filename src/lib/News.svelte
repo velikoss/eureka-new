@@ -1,6 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import DOMPurify from 'dompurify';
+    import { Newspaper } from '@lucide/svelte';
 
     export let title: string;
     export let content: Promise<string>[]; // Assuming content is an array of promises
@@ -83,9 +84,12 @@
     })();
 </script>
 
-<div class="border rounded-lg w-full mb-4 p-4 font-mono">
+<div class="border rounded-lg w-full mb-4 p-4 shadow-md">
     <div class="flex flex-row justify-between border-b pb-2 mb-2">
-        <p class="font-bold text-lg mb-1">{title}</p>
+        <div class="flex flex-row gap-1.5 items-center">
+            <div class="mb-1"><Newspaper size={18} /></div>
+            <p class="font-bold text-lg mb-1">{title}</p>
+        </div>
         <p class="text-sm mb-1 right-0 text-right place-self-center">{new Date(parseInt(date_add) * 1000).toDateString()}</p>
     </div>
     {@html resolvedContent}
