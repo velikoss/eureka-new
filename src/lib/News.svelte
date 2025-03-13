@@ -3,21 +3,24 @@
     import DOMPurify from 'dompurify';
     import { Newspaper } from '@lucide/svelte';
 
-    export let title: string;
-    export let content: Promise<string>[]; // Assuming content is an array of promises
-    export let date_add: string;
+    let { title, content, date_add, skipDOM = false, index = 0 }: {
+        title: string;
+        content: Promise<string>[] | string;
+        date_add: string;
+        skipDOM?: boolean;
+        index?: number;
+    } = $props();
 
-    let resolvedContent: string = '';
+    let resolvedContent: string = $state("");
 
     async function parseContent() {
         // Resolve all promises in the content array
+        if (!content) return; 
         const resolvedContents = await Promise.all(content);
         const combinedContent = resolvedContents.join(''); // Combine all resolved contents
 
         if (combinedContent.includes("Патриотизм начинается")) {
-            date_add = (Date.now() / 1000).toString();
-            title = "Сообщение от разработчиков Эврики";
-            return `Спасибо, что используете Эвреку! Так как проект находится в ранней стадии зачатия, функционал будет дорабатываться со временем.<br/><br/>Подпишитесь на наш телеграмм-канал чтобы следить за новыми обновлениями (<a class="text-blue-500 underline" href="https://t.me/acoeureka">тык</a>)<br>Наш Github: <a class="text-blue-500 underline" href="https://github.com/velikoss/eureka">тык</a>`;
+            title = "Новости Авроры";
         }
 
         let _jsdom;
@@ -80,11 +83,12 @@
 
     // Resolve the content when the component is created
     (async () => {
-        resolvedContent = await parseContent();
+        if (!skipDOM) resolvedContent = await parseContent();
+        else resolvedContent = content;
     })();
 </script>
 
-<div class="border rounded-lg w-full mb-4 p-4 shadow-md">
+<div class="motion-preset-blur-down border rounded-lg w-full mb-4 p-4 shadow-md">
     <div class="flex flex-row justify-between border-b pb-2 mb-2">
         <div class="flex flex-row gap-1.5 items-center">
             <div class="mb-1"><Newspaper size={18} /></div>

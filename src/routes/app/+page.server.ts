@@ -45,19 +45,16 @@ export async function load({ cookies, fetch, locals }) {
 
     try {
         // Fetch all data in parallel
-        const [news, units, tasks] = await Promise.all([
-            fetchData<News[]>("/api/loadNews", fetch),
+        const [units, tasks] = await Promise.all([
             fetchData<Section[]>("/api/getUnitsList", fetch),
             fetchData<HomeTask[]>("/api/getTaskList", fetch)
         ]);
 
-        // Combine tasks with units and nested sections
-        const combinedData = combineTasksWithUnits(units || [], tasks || []);
-
         return {
             sessionID: session,
-            units: combinedData,
-            news: news || [],
+            units: units || [],
+            tasks: tasks || [],
+            news: fetchData<News[]>("/api/loadNews", fetch) || new Promise(() => []),
             user: locals.user
         };
     } catch (error) {
@@ -65,6 +62,7 @@ export async function load({ cookies, fetch, locals }) {
         return {
             sessionID: session,
             units: [],
+            tasks: [],
             news: [],
             user: locals.user
         };

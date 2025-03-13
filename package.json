@@ -21,8 +21,9 @@
 		"@types/ws": "^8.5.14",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
-		"tailwindcss": "^4.0.12",
+		"tailwindcss": "^0.0.0-insiders.50562a9",
 		"tailwindcss-font-inter": "^4.0.0",
+		"tailwindcss-motion": "^1.1.0",
 		"typescript": "^5.0.0",
 		"vite": "^6.0.0",
 		"vite-plugin-terminal": "^1.2.0"

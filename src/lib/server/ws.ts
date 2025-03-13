@@ -36,11 +36,11 @@ export function updateClient(clientId: string, newClient: WebSocketClientMetadat
 }
 
 export function getClient(clientId: string): WebSocketClientMetadata | undefined {
-    if (clientId === "0") return;
+    if (clientId === "0") return undefined;
 
     const re = decodeJWT(clientId);
     if (!re) {
-        return;
+        return undefined;
     }
 
     if (wsClients.has(re)) {

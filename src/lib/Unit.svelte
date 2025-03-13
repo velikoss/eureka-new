@@ -19,7 +19,7 @@
     };
 </script>
 
-<div class="border border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-md p-4 mb-4 bg-white">
+<div class="border motion-preset-blur-down border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-md p-4 mb-4 bg-white">
     <!-- Section Header -->
     <div class="flex justify-between items-center">
         <span class="flex flex-row items-center gap-1.5">
@@ -56,7 +56,7 @@
     <div class="mt-3 mb-4 border-t border-black dark:border-gray-200"></div>
 
     <!-- Tasks within the main section -->
-    {#each section.tasks as task }
-        <HomeTaskComponent task={task}></HomeTaskComponent>
+    {#each section.tasks as task, i }
+        <HomeTaskComponent task={task} index={i}></HomeTaskComponent>
     {/each}
 </div>
