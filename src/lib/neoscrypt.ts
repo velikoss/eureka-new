@@ -22,7 +22,7 @@ export default class NeoScrypt {
 		this.#instance.exports.neoscrypt(testPtr, resultPtr, 0x80000620);
 		this.#instance.exports._bumpalloc_pop(input.length);
 		const result = new Uint8Array(this.#instance.exports.memory.buffer, resultPtr, 32);
-		const resultStr = [...result].map(x => x.toString(16)).join("");
+		const resultStr = [...result].map(x => x.toString(16).padStart(2, "0")).join("");
 		this.#instance.exports._bumpalloc_pop(32);
 		return resultStr;
 	}

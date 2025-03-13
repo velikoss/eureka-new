@@ -39,7 +39,7 @@
                        border dark:border-white rounded shadow-lg 
                        opacity-0 group-hover:opacity-100 transition">
                        Avrora Backend: ArmAPI<br/>
-                       Crypto: {data.neoscrypt ? "Neoscrypt (WASM)" : "Fallback"}
+                       Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
             </div>
         </div></div>
 </div>

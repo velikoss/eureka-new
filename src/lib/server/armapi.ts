@@ -16,14 +16,11 @@ export function moduleState() {
 } 
 
 export function signRequest(id: any, hash: string): string {
-    if (hash.length > 32) {
-        console.log("yayayaya");
-        return "";
-    }
+    if (hash.length > 32) return "";
     const textEncoder = new TextEncoder();
     const hashUtf8 = textEncoder.encode(hash);
-    const inputData = new Uint32Array([id, 0, ...new Uint32Array(hashUtf8.buffer)]);
-    const hashbrown = neoscrypt?.neoscrypt(new Uint8Array(inputData.buffer));
+    const inputData = new Uint8Array([...new Uint8Array(new Uint32Array([0, id]).buffer), ...hashUtf8]);
+    const hashbrown = neoscrypt?.neoscrypt(inputData);
     console.log(hashbrown);
-    return hashbrown!;
+    return hashbrown!.toUpperCase();
 }

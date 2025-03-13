@@ -19,6 +19,7 @@ export const actions = {
         }
 
         let challenge = (await (await fetch("/api/newChallenge")).json()).response;
+        console.log(challenge)
         let user = await (await fetch("/api/authorize", {
             method: "POST",
             body: JSON.stringify({
