@@ -20,7 +20,7 @@
 </script>
 
 <header>
-    <div class="fixed top-6 right-6 flex gap-1">
+    <div class="fixed top-6 right-6 flex gap-1 z-50">
         <DarkMode/>
 	</div>
 </header>
@@ -29,6 +29,6 @@
 		--system-ui: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	}
 </style>
-<main class="inter">
+<main class="inter w-screen">
 	{@render children()}
 </main>

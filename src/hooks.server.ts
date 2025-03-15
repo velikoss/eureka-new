@@ -1,6 +1,6 @@
 import { signRequest } from "$lib/server/armapi";
 import { encodeJWT } from "$lib/server/jwt";
-import { closeWebSocketConnection, connectToWebSocketServer, getClient } from "$lib/server/ws";
+import { closeWebSocketConnection, connectToWebSocketServer, getClient, sendMessageToWebSocketServer } from "$lib/server/ws";
 import DarkMode from "$lib/widgets/DarkMode.svelte";
 import { redirect, type Handle } from "@sveltejs/kit";
 import { v4 } from "uuid";
@@ -11,7 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const renew = event.url.searchParams.get("renewToken");
 
-    if (session && client && !renew) {
+    if (session && client && client.user && !renew) {
         event.locals.user = getClient(session)?.user;
     } else if ((event.url.href.includes("/app") && !event.url.href.includes("/app/login")) || renew) {
         if (renew) {
@@ -24,11 +24,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 // "Connection": "Upgrade",
 // "Pragma": "no-cache",
 // "Cache-Control": "no-cache",
-"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_16_0) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36",
+"User-Agent": "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36",
 // "Upgrade": "websocket",
 "Origin": "https://mirea.aco-avrora.ru",
 // "Accept-Encoding": "gzip, deflate, br",
         });
+        // const response = await new Promise((resolve) => {
+        //     sendMessageToWebSocketServer(sessionID, `{"data":{},"ser_task":"getStudentArmVersion","arm_task_id":"${v4()}","v":170}`, (data) => {
+        //         resolve(data.data)
+        //     });
+        // });
+    
         return redirect(307, "/app/login");
     }
     

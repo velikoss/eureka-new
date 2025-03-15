@@ -3,7 +3,7 @@
     import { StickyNote } from "@lucide/svelte";
     import { onMount } from 'svelte';
 
-    let {task, index}: {task: HomeTask, index: any} = $props();
+    let {task, index, disabled}: {task: HomeTask, index: any, disabled: boolean | false} = $props();
 
     onMount(() => {
         console.log(index)
@@ -38,7 +38,7 @@
     }
 </script>
 
-<a href={task.status % 4 == 0 ? "javascript: void(0)" : `/app/task/${task.id}`}>
+<a href={task.status % 4 == 0 || disabled ? "javascript: void(0)" : `/app/task/${task.id}`}>
     <div
         class="border border-black dark:border-gray-200 task rounded-lg p-4 mb-4 shadow-sm drop-shadow-sm hover:drop-shadow-lg transition
                {getTaskColors(task.status)}"

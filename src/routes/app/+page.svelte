@@ -47,13 +47,13 @@
     });
 </script>
 
-<main class="flex flex-col items-center">
-    <header class="h-[5.6vh] w-screen px-[calc(10vw)] border-b flex flex-row items-center justify-between">
+<main class="flex flex-col items-center w-screen">
+    <header class="h-[5.6vh] max-h-[60px] w-screen md:px-[calc(10vw)] border-b flex flex-row items-center justify-between">
         <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong>
         <div class="flex flex-row gap-1 items-center">{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs"></span> <a href="/app/login?renewToken=true"><LogOut size={18} /></a></div>
     </header>
-    <div class="max-w-4/5 min-w-[600px] flex flex-row p-2 gap-4">
-        <div class="w-1/2 flex flex-col">
+    <div class="w-screen md:max-w-4/5 md:min-w-[600px] flex flex-col md:flex-row p-2 gap-4">
+        <div class="w-full md:w-1/2 flex flex-col">
             {#await Promise.all([data.units, data.tasks])}
                 <!-- Loading state -->
                 <Unit section={{
@@ -92,7 +92,7 @@
                 </div>
             {/await}
         </div>
-        <div class="w-1/2 flex flex-col">
+        <div class="w-full md:w-1/2 flex flex-col">
             <News title="Сообщение от разработчиков Эврики" content={`Спасибо, что используете Эврику! Так как проект находится в ранней стадии зачатия, функционал будет дорабатываться со временем.<br/><br/>Подпишитесь на наш телеграмм-канал чтобы следить за новыми обновлениями (<a class="text-blue-500 underline" href="https://t.me/acoeureka">тык</a>)<br>Наш Github: <a class="text-blue-500 underline" href="https://github.com/velikoss/eureka">тык</a>`} skipDOM={true} date_add={Date.now()/1000}></News>
             {#await data.news then dataNews}
                 <!-- News data is loaded -->

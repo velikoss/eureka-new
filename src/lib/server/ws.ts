@@ -52,6 +52,7 @@ export function getClient(clientId: string): WebSocketClientMetadata | undefined
             lastMessageReceivedTime: existingConnection!.lastMessageReceivedTime
         };
     }
+    return undefined;
 }
 
 export function connectToWebSocketServer(
@@ -125,7 +126,7 @@ export function connectToWebSocketServer(
             if (arm_task_id && callbackMap.has(arm_task_id)) {
                 const callback = callbackMap.get(arm_task_id);
                 if (callback) {
-                    callback(parsedMessage);
+                    setTimeout(() => callback(parsedMessage), 0);
                 }
                 callbackMap.delete(arm_task_id);
             }

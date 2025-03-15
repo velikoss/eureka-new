@@ -21,6 +21,6 @@ export function signRequest(id: any, hash: string): string {
     const hashUtf8 = textEncoder.encode(hash);
     const inputData = new Uint8Array([...new Uint8Array(new Uint32Array([0, id]).buffer), ...hashUtf8]);
     const hashbrown = neoscrypt?.neoscrypt(inputData);
-    console.log(hashbrown);
+    //console.log(hashbrown);
     return hashbrown!.toUpperCase();
 }

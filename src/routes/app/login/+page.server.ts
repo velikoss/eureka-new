@@ -17,19 +17,18 @@ export const actions = {
         if (!session || (getClient(session)?.user && getClient(session)?.user!.email == email?.valueOf() as string && getWebSocketClient(session)?.readyState === 1)) {
             throw redirect(303, "/app");
         }
+        let date = Date.now();
 
-        let challenge = (await (await fetch("/api/newChallenge")).json()).response;
-        console.log(challenge)
         let user = await (await fetch("/api/authorize", {
             method: "POST",
             body: JSON.stringify({
                 email,
                 password,
-                challenge
             })
         })).json();
+        
         if (!user.success) {
-            console.log(user);
+            //console.log(user);
             return fail(400, {error: user.error})
         } else {
             let client = getClient(session!);
@@ -37,6 +36,7 @@ export const actions = {
             client!.user = user.student as User;
             client!.user!.email = email?.valueOf() as string;
             updateClient(session!, client!);
+            console.log(Date.now() - date)
             throw redirect(303, "/app");
         }
 	},
