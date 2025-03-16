@@ -1,5 +1,5 @@
 import NeoScrypt from "$lib/neoscrypt";
-import fs from "fs/promises";
+import fs from "node:fs/promises";
 import file from '$lib/neoscrypt.wasm?url';
 const wasm = await fs.readFile("."+file).catch((e) => {
     console.log(e)

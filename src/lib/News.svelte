@@ -26,12 +26,11 @@
 
         let _jsdom;
         if (!browser) {
-            let { JSDOM } = await import('jsdom');
-            _jsdom = new JSDOM('');
+            return;
         }
-        const _window = browser ? window : _jsdom!.window;
+        const _window = window;
         const purify = DOMPurify(_window);
-        const _document = browser ? document : _jsdom!.window.document;
+        const _document = document;
 
         const sanitizedContent = purify.sanitize(combinedContent);
 
