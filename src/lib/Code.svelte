@@ -9,8 +9,8 @@
     let filenames: string[] = $state([]);
     let filechange: boolean[] = $state([]);
     let filedata: string[] = $state([]);
-    let currentFile = $state("")
-    let currentFileData = $state("")
+    let currentFile = $state("");
+    let codemirror: CM | undefined = $state(undefined);
 
     onMount(async () => {
         let data = await fetch("/api/getTaskFiles2", {
@@ -25,8 +25,14 @@
             filedata.push(file.file!);
             filechange.push(false);
         })
-        currentFile = taskfiles[0].name!;
-        currentFileData = taskfiles[0].file!;
+        
+        if (taskfiles.length > 0) {
+            let f = taskfiles[0];
+            if (f.file && f.name) {
+                currentFile = f.name;
+                codemirror?.setValue(f.file);
+            }
+        }
 
         document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.key === 's') {
@@ -37,7 +43,7 @@
                     body: JSON.stringify({
                         idTask: task.id,
                         name: currentFile,
-                        file: currentFileData
+                        file: codemirror?.getValue(),
                     })
                 })
             }
@@ -47,7 +53,7 @@
 
     function selectFile(name: string): any {
         currentFile = name;
-        currentFileData = filedata[filenames.indexOf(name)];
+        codemirror?.setValue(filedata[filenames.indexOf(name)]);
     }
 </script>
 
@@ -126,6 +132,8 @@
         }}>
 
         </CodeMirror> -->
-        <CM bind:value={currentFileData}  />
+        <CM bind:this={codemirror} onchange={() => {
+            filechange[filenames.indexOf(currentFile)] = true;
+        }} />
     </div>
 </div>

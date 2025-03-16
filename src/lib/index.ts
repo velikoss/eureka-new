@@ -52,30 +52,42 @@ export interface HomeTask {
     isLocked: boolean;
 }
 
-
-import { writable } from "svelte/store";
-
 export const Tools = [
-    "problem","method","algo","algo-scheme","code","tests","report","aovt_operation","acmas_p1_t1", "acmas_p1_t2", "acmas_send", "algo2", "intro", "conclusion", "method2"
+    "problem",
+    "method",
+    "algo",
+    "algo-scheme",
+    "code",
+    "tests",
+    "report",
+    "aovt_operation",
+    "acmas_p1_t1",
+    "acmas_p1_t2",
+    "acmas_send",
+    "algo2",
+    "intro",
+    "conclusion",
+    "method2",
 ]
 
-export const ToolsLang = {
-    "problem" : "Постановка задачи",
-    "method": "Метод решения",
-    "algo" : "Алгоритм",
-    "algo-scheme" : "Блок-схема",
-    "code" : "Исходный код",
-    "tests" : "Тестирование",
-    "report" : "Отчет",
-    "aovt_operation" : "aovt_operation", // idk i'm from 1 course cant know for sure what's this
-    "acmas_p1_t1" : "acmas_p1_t1",  // idk i'm from 1 course cant know for sure what's this
-    "acmas_p1_t2" : "acmas_p1_t2",  // idk i'm from 1 course cant know for sure what's this
-    "acmas_send" : "acmas_send",  // idk i'm from 1 course cant know for sure what's this
-    "algo2" : "Алгоритм", 
-    "intro" : "intro",  // idk i'm from 1 course cant know for sure what's this
-    "conclusion" : "conclusion",  // idk i'm from 1 course cant know for sure what's this
-    "method2" : "Метод решения"
-}
+export const ToolsLang: Map<string, string> = new Map([
+    ["problem", "Постановка задачи"],
+    ["method","Метод решения"],
+    ["algo", "Алгоритм"],
+    ["algo-scheme", "Блок-схема"],
+    ["code", "Исходный код"],
+    ["tests", "Тестирование"],
+    ["report", "Отчет"],
+    ["algo2", "Алгоритм"],
+    ["method2", "Метод решения"],
+     // idk i'm from the 1st course so cant know for sure what this is
+    ["intro", "Введение"],
+    ["conclusion", "conclusion"],
+    ["aovt_operation", "aovt_operation"],
+    ["acmas_p1_t1", "acmas_p1_t1"],
+    ["acmas_p1_t2", "acmas_p1_t2"],
+    ["acmas_send", "acmas_send"],
+])
 
 export interface Algo {
     id: number;

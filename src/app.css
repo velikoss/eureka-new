@@ -14,3 +14,8 @@
 body {
   @apply bg-white dark:bg-black text-black dark:text-white;
 }
+
+/* idi nahuy */
+.cm-editor {
+  height: 100% !important;
+}

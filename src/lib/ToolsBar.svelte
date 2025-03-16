@@ -42,7 +42,7 @@
         display: inline-block;
     }
 
-    .tool-text::after {
+    /* .tool-text::after {
         content: '';
         position: absolute;
         left: 0;
@@ -55,7 +55,7 @@
 
     .tool-text.selected::after {
         width: 100%;
-    }
+    } */
 </style>
 
 <div class="px-2 tools flex flex-row md:flex-col gap-1 md:gap-2">
@@ -69,7 +69,7 @@
                     <span class="selected-arrow text-black dark:text-white">></span>
                 {/if}
                 <span class="tool-text {selectedToolId === tool.id ? 'selected' : ''}">
-                    {ToolsLang[Tools[tool.id - 1]]}
+                    {ToolsLang.get(Tools[tool.id - 1])}
                 </span>
             </p>
         </button>

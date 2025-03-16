@@ -6,6 +6,6 @@ import Terminal from 'vite-plugin-terminal'
 export default defineConfig({
 	plugins: [sveltekit(), tailwindcss(), Terminal()],
 	optimizeDeps: {
-        exclude: ["svelte-codemirror-editor", "codemirror", "jsdom", "fs"],
+        exclude: ["svelte-codemirror-editor", "codemirror", "jsdom", "fs", "@codemirror/state"],
     },
 });
