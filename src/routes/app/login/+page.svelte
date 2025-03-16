@@ -1,34 +1,44 @@
 <script lang="ts">
-    import { User, RectangleEllipsis, LogIn, Server, Key } from "@lucide/svelte";
+    import { User, RectangleEllipsis, LogIn, Server, Key, LoaderCircle } from "@lucide/svelte";
     import type { PageProps } from "../$types";
 
     let { data, form, neoscrypt }: PageProps = $props();
 
+    let logging = $state(false);
+    let errorOffset = $state(0);
+    let formOffset = $state(0);
+    let screenOffset = $state(0);
+
 </script>
 
-<div class="w-screen h-screen flex flex-col items-center justify-center">
-    {#if form?.error}
-    <div class="error -mt-6 text-center shadow-md underline flex flex-col items-center justify-center mb-5 w-90 h-16 bg-rose-300 dark:bg-rose-900 text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl">
+<div class="w-screen h-screen flex flex-col items-center justify-center" bind:clientHeight={screenOffset}>
+    <div style={`--customPadding:calc(${screenOffset/2 - errorOffset - formOffset / 2 - 12}px); `} class={errorOffset == 0 || !form?.error? "fixed opacity-0" : "fixed top-[var(--customPadding)] motion-preset-slide-up p-1 error -mt-6 text-center shadow-md flex flex-col items-center justify-center w-90 h-16 bg-[#eb8c95] dark:bg-[#dc3545] text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl"} bind:clientHeight={errorOffset}>
         <p>{form?.error}</p>
     </div>
-    {/if}
     
-    <form method="POST" class="border w-90 flex flex-col px-6 pb-6 gap-3 rounded-2xl shadow-lg">
+    <form method="POST" class="border w-90 flex flex-col px-6 pb-6 gap-3 rounded-2xl shadow-lg {form?.error || logging ? "" : "motion-preset-blur-down"}" bind:clientHeight={formOffset}>
         <p class="relative w-fit text-center font-bold text-xl self-center px-2 -top-3.5 bg-white dark:bg-black">Eureka</p>
         <div class="relative">
             <input name="email" type="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
-            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><User/> Login (@edu.mirea.ru)</label>
+            <label for="floating_outlined" class="rounded-lg pointer-events-none absolute text-sm text-gray-500 dark:text-gray-200 {form?.error ? "duration-0" : "duration-200"} transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><User/> Login (@edu.mirea.ru)</label>
         </div>
         <div class="relative">
             <input name="password" type="password" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
-            <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-200 duration-200 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><RectangleEllipsis /> Password</label>
+            <label for="floating_outlined" class="rounded-lg pointer-events-none absolute text-sm text-gray-500 dark:text-gray-200 {form?.error ? "duration-0" : "duration-200"} transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><RectangleEllipsis /> Password</label>
         </div>
-        <button class="border w-fit px-5 py-1 self-center rounded-md cursor-grab flex flex-row items-center justify-center gap-2.5">
+        <button class="border {form?.error ? "motion-preset-shake motion-opacity-in-0 motion-duration-500" : ""} w-fit mt-2 px-5 py-1 self-center rounded-md cursor-grab flex flex-row items-center justify-center gap-2.5" onclick={() => {
+            logging = true;
+            form = undefined;
+        }}>
+            {#if logging && !form?.error}
+            <LoaderCircle class="motion-preset-spin"/>
+            {:else}
             <LogIn size={16} />
-            Log in
+            Log in 
+            {/if}
         </button>
     </form>
-    <div class="pt-3 text-xs flex flex-row items-center gap-2">
+    <div class="pt-3 text-xs flex flex-row items-center gap-2 {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
         Eureka v0.1.0
         <div class="relative group">
             <button class="text-black dark:text-gray-200 underline">

@@ -16,48 +16,15 @@ async function fetchData<T>(url: string, fetch: typeof globalThis.fetch): Promis
     }
 }
 
-// Combine tasks with their respective units and nested sections
-function combineTasksWithUnits(units: Section[], tasks: HomeTask[]): Section[] {
-    return units.map(unit => {
-        // Map tasks to the main unit
-        let unitTasks = tasks.filter(task => task.section_id === unit.rowid);
-
-        // Map tasks to nested sections
-        const nestedWithTasks = Object.entries(unit.nested).map(([nestedId, nestedSection]) => {
-            const nestedTasks = tasks.filter(task => task.section_id === parseInt(nestedId));
-            unitTasks = [...unitTasks, ...nestedTasks];
-            return {
-                ...nestedSection,
-                tasks: nestedTasks
-            };
-        });
-
-        return {
-            ...unit,
-            tasks: unitTasks,
-            nested: nestedWithTasks
-        };
-    });
-}
-
 export async function load({ cookies, fetch, locals }) {
     const session = cookies.get('sessionID') as string;
 
     try {
-        // Fetch all data in parallel
-        const [news, units, tasks] = await Promise.all([
-            fetchData<News[]>("/api/loadNews", fetch),
-            fetchData<Section[]>("/api/getUnitsList", fetch),
-            fetchData<HomeTask[]>("/api/getTaskList", fetch)
-        ]);
-
-        // Combine tasks with units and nested sections
-        const combinedData = combineTasksWithUnits(units || [], tasks || []);
-
         return {
             sessionID: session,
-            units: combinedData,
-            news: news || [],
+            units: fetchData<Section[]>("/api/getUnitsList", fetch) || [],
+            tasks: fetchData<HomeTask[]>("/api/getTaskList", fetch) || [],
+            news: fetchData<News[]>("/api/loadNews", fetch) || [],
             user: locals.user
         };
     } catch (error) {
@@ -65,6 +32,7 @@ export async function load({ cookies, fetch, locals }) {
         return {
             sessionID: session,
             units: [],
+            tasks: [],
             news: [],
             user: locals.user
         };

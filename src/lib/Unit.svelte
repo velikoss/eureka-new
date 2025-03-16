@@ -3,7 +3,7 @@
     import { Book } from '@lucide/svelte';
     import HomeTaskComponent from './HomeTaskComponent.svelte';
 
-    export let section: Section & { tasks: HomeTask[], nested: (NestedSection)[] };
+    let { section, disabled }: {section : Section & { tasks: HomeTask[], nested: (NestedSection)[] }, disabled: boolean | false} = $props();
 
     // Helper function to format the deadline week
     const formatDeadline = (deadlineWeek: number) => {
@@ -11,7 +11,7 @@
     };
 
     // State to manage visibility of nested sections
-    let showNested = false;
+    let showNested = $state(false);
 
     // Function to toggle nested sections visibility
     const toggleNested = () => {
@@ -19,7 +19,7 @@
     };
 </script>
 
-<div class="border border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-md p-4 mb-4 bg-white">
+<div class="border md:motion-preset-blur-down border-black dark:border-gray-200 dark:bg-black dark:text-white rounded-lg shadow-md p-4 mb-4 bg-white">
     <!-- Section Header -->
     <div class="flex justify-between items-center">
         <span class="flex flex-row items-center gap-1.5">
@@ -34,7 +34,7 @@
     {#if section.nested.length > 0}
         <div class="w-full border-black dark:border-gray-200 pt-2">
             <button
-                on:click={toggleNested}
+                onclick={toggleNested}
                 class="text-sm w-full text-left transition text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
             >
                 {showNested ? '< Скрыть содержание' : '> Показать содержание'}
@@ -56,7 +56,7 @@
     <div class="mt-3 mb-4 border-t border-black dark:border-gray-200"></div>
 
     <!-- Tasks within the main section -->
-    {#each section.tasks as task }
-        <HomeTaskComponent task={task}></HomeTaskComponent>
+    {#each section.tasks as task, i }
+        <HomeTaskComponent task={task} disabled={disabled} index={i}></HomeTaskComponent>
     {/each}
 </div>

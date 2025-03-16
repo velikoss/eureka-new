@@ -1,4 +1,4 @@
 module.exports = {
     theme: {},
-    plugins: [require('tailwindcss-font-inter')]
+    plugins: [require('tailwindcss-motion')], 
 }
