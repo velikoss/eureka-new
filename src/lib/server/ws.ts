@@ -91,7 +91,7 @@ export function connectToWebSocketServer(
 
         ws.on('error', (error) => {
             console.error(`WebSocket connection error for client ${clientId}:`, error);
-            if (error.message.includes('400')) {
+            if (error && error.message && error.message.includes('400')) {
                 console.error('Server rejected the connection with a 400 Bad Request. Check headers and URL.');
             }
             wsClients.delete(re);
@@ -182,7 +182,7 @@ export function sendMessageToWebSocketServer(
 }
 
 export function getWebSocketClient(clientId: string): WebSocket | undefined {
-    return wsClients.get(clientId)?.ws!;
+    return wsClients.get(clientId)?.ws??undefined;
 }
 
 export function getLastMessageReceivedTime(clientId: string): number | null {

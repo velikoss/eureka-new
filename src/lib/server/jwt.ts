@@ -22,7 +22,7 @@ export function decodeJWT(token: string): string | null {
     const decoded = jwt.verify(token, SECRET_KEY) as string;
     return decoded;
   } catch (error) {
-    console.error('Error decoding JWT:', error);
+    console.error(`Error decoding JWT ${token}:`, error);
     return null; // Return null if the token is invalid or expired
   }
 }

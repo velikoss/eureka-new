@@ -15,18 +15,7 @@ export async function load({ cookies, params, fetch }) {
             const json = await taskJSON.json();
             // console.log(json);
             const task = (json).data as Task;
-            if (!hasContext("files")) {
-                setContext("files", 
-                    await fetch("/api/getTaskFiles2", 
-                        {
-                            method: "POST",
-                            body: JSON.stringify({
-                                id: task.id,
-                            })
-                        }
-                    )
-                );
-            }
+            
             resolve({
                 task
             })

@@ -4,8 +4,11 @@
     import { indentWithTab } from "@codemirror/commands";
     import { basicSetup } from "codemirror";
     import { onMount } from "svelte";
+    import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 
-    let { value = $bindable(), onchange } = $props();
+    import type { Transaction } from "@codemirror/state";
+
+    let { value = $bindable(), onchange, dark = false } = $props();
     
     let rootEl: HTMLElement | undefined = undefined;
     let editorView: EditorView | undefined = undefined;
@@ -17,14 +20,14 @@
         return editorView?.state.doc.toString() ?? "";
     }
 
-
     export function setValue(newValue: string) {
+        initial = true;
         editorView?.dispatch({
             changes: {
                 from: 0,
                 to: editorView.state.doc.length,
                 insert: newValue,
-            }
+            },
         });
     }
 
@@ -42,8 +45,9 @@
                 basicSetup,
                 keymap.of([indentWithTab]),
                 cpp(),
+                dark ? githubLight : githubDark, // for theme dev light is dark and dart is light
                 EditorView.updateListener.of(upd => {
-                    if (upd.docChanged) {
+                    if (upd.docChanged && !initial) {
                         onchange();
                     }
                     // TODO: make a separate function for access, this is expensive.

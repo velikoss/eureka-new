@@ -133,6 +133,7 @@ export interface Task {
     task_readiness: number;
     graph_png_array: string;
     is_code_available: boolean;
+    files: TaskFile[];
     graph_svg: string;
     id: number;
     status: number;
@@ -154,9 +155,10 @@ export interface Task {
     task_output: string;
 }
 
-export class TaskFile {
+export interface TaskFile {
     name: string | undefined;
     file: string | undefined;
+    changed: boolean | false;
 }
 
 export interface TaskTest {
@@ -183,14 +185,14 @@ export const _taskStatusNames = [
 ];
 
 export const taskStatusColors = {
-    1: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200', // Не выполнено
-    2: 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200', // На проверке
-    3: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200', // Доработать
-    4: 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200', // Сдано
-    5: 'bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-200', // Доработать (оценено)
-    6: 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200', // На проверке (оценено)
-    7: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200', // У куратора
-    8: 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200', // Сгорела
+    1: 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-white', // Не выполнено
+    2: 'bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white', // На проверке
+    3: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white', // Доработать
+    4: 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white', // Сдано
+    5: 'bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white', // Доработать (оценено)
+    6: 'bg-purple-100 text-purple-800 dark:bg-purple-600 dark:text-white', // На проверке (оценено)
+    7: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-white', // У куратора
+    8: 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-white', // Сгорела
 };
 
 export interface News {

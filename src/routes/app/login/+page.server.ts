@@ -14,10 +14,13 @@ export const actions = {
     
         let session = cookies.get("sessionID");
 
-        if (!session || (getClient(session)?.user && getClient(session)?.user!.email == email?.valueOf() as string && getWebSocketClient(session)?.readyState === 1)) {
+        if (session && getClient(session) && getClient(session)?.user && getClient(session)?.user!.email == email?.valueOf()) {
             throw redirect(303, "/app");
         }
-        let date = Date.now();
+        const jwt = session ? decodeJWT(session)! : 0;
+        if (!session || (!getWebSocketClient(jwt) || getWebSocketClient(jwt)?.readyState !== WebSocket.OPEN)) {
+            throw redirect(303, "/app/login?renewToken=true");
+        }
 
         let user = await (await fetch("/api/authorize", {
             method: "POST",
@@ -36,7 +39,6 @@ export const actions = {
             client!.user = user.student as User;
             client!.user!.email = email?.valueOf() as string;
             updateClient(session!, client!);
-            console.log(Date.now() - date)
             throw redirect(303, "/app");
         }
 	},

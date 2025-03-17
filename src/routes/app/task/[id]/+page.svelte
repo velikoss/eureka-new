@@ -9,7 +9,7 @@
     import Marquee from "svelte-fast-marquee";
     import Algo from '$lib/Algo.svelte';
 
-    const task: Task = page.data.task;
+    let task: Task = $state(page.data.task);
     let selectedToolId: number | null = $state(null);
 
     const options = {
@@ -45,12 +45,7 @@
 <div class="flex flex-col">
     <div class="w-screen border-b flex flex-row py-1 mb-2.5 px-2 md:px-[10vw] md:pl-[10.5vw] gap-1 pb-1">
         <strong class="text-xl">Eureka</strong>
-        <Marquee class="font-mono" gradient={true} --gradientColor={isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'}>
-            {#each [0,0,0,0] as _}
-            <span>{task.name}</span>
-            <span>{".".repeat(task.name.length / 2)}</span>
-            {/each}
-        </Marquee>
+        <p class="w-full text-center self-center">{task.name}</p>
         <a href="/app" class="w-fit text-xl text-start underline z-50">×</a>
     </div>
     <div class="task w-screen md:w-4/5 flex self-center flex-row">
@@ -62,7 +57,7 @@
             <!-- <p>{Tools[selectedToolId - 1]}</p> -->
             <svelte:boundary>
                 {@const Component = getTool()}
-                <Component task={task} dark={isDarkMode}></Component>
+                <Component bind:task={task} dark={isDarkMode}></Component>
 
                 {#snippet failed(error, reset)}
                     <button onclick={reset}>oops! try again {error}</button>

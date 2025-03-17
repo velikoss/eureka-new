@@ -15,6 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.user = getClient(session)?.user;
     } else if ((event.url.href.includes("/app") && !event.url.href.includes("/app/login")) || renew) {
         if (renew) {
+            console.log("Requested renew"); 
             closeWebSocketConnection(session??"0");
         }
         var id = v4();
