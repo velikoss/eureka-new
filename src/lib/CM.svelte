@@ -4,7 +4,6 @@
     import { indentWithTab } from "@codemirror/commands";
     import { basicSetup } from "codemirror";
     import { onMount } from "svelte";
-    import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 
     import type { Transaction } from "@codemirror/state";
 
@@ -45,7 +44,6 @@
                 basicSetup,
                 keymap.of([indentWithTab]),
                 cpp(),
-                dark ? githubLight : githubDark, // for theme dev light is dark and dart is light
                 EditorView.updateListener.of(upd => {
                     if (upd.docChanged && !initial) {
                         onchange();

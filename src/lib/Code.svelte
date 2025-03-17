@@ -6,7 +6,7 @@
     import CM from "./CM.svelte";
     import { FolderOpen } from "@lucide/svelte";
 
-    let {task = $bindable(), deflate, dark}: {task: Task, deflate: any, dark: boolean | false } = $props();
+    let {task = $bindable(), deflate, dark = $bindable()}: {task: Task, deflate: any, dark: boolean | false } = $props();
     let filenames: string[] = $state([]);
     let filechange: boolean[] = $state([]);
     let filedata: string[] = $state([]);

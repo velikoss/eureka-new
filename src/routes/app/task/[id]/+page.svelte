@@ -55,9 +55,9 @@
         <div class="taskmenu overflow-scroll mb-[7vh] md:mb-0 w-full h-[88.5vh] md:min-h-[96vh] md:max-h-full border md:border-b-0 rounded-md md:rounded-b-none">
             {#if selectedToolId !== null}
             <!-- <p>{Tools[selectedToolId - 1]}</p> -->
+            {@const Component = getTool()}
             <svelte:boundary>
-                {@const Component = getTool()}
-                <Component bind:task={task} dark={isDarkMode}></Component>
+                <Component bind:task={task} bind:dark={isDarkMode}></Component>
 
                 {#snippet failed(error, reset)}
                     <button onclick={reset}>oops! try again {error}</button>

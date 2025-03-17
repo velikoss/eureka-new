@@ -35,8 +35,6 @@
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/view": "^6.36.4",
 		"@lucide/svelte": "^0.482.0",
-		"@uiw/codemirror-theme-github": "^4.23.10",
-		"@uiw/codemirror-themes": "^4.23.10",
 		"codemirror": "^6.0.1",
 		"crypto-js": "^4.2.0",
 		"dompurify": "^3.2.4",

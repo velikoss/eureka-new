@@ -18,7 +18,7 @@ export const actions = {
             throw redirect(303, "/app");
         }
         const jwt = session ? decodeJWT(session)! : 0;
-        if (!session || (!getWebSocketClient(jwt) || getWebSocketClient(jwt)?.readyState !== WebSocket.OPEN)) {
+        if (!session || (!getWebSocketClient(jwt) || getWebSocketClient(jwt)?.readyState !== 1)) {
             throw redirect(303, "/app/login?renewToken=true");
         }
 

@@ -68,7 +68,7 @@
         <p class="hidden dark:inline-block text-white">У нас есть светлая тема 👉</p>
 	</div>
 </header>
-<div class={`w-full h-[calc(50vh-var(--customPadding))] flex justify-center items-center pb-40`} style={`--customPadding:${height/2}px`}>
+<div class={height === 0 ? "opacity-0" : `w-full h-[calc(50vh-var(--customPadding))] flex justify-center items-center pb-40`} style={`--customPadding:${height/2}px`}>
     <div style="zoom: 75%;" class="p-5 w-162 h-10 transform backface-hidden transform-gpu scale-3d translate-z-0 subpixel-antialiased perspective-[1px] motion-preset-blur-down-lg motion-delay-1500">
         <News 
         title="В разработке!"
@@ -133,12 +133,12 @@
         </div>
         <div class="w-full md:w-1/2 flex flex-row justify-start">
             <div style="zoom: 60%;" class="w-full md:w-3/4">
-                {#each content as a}
+                {#each content as a, i}
                 <News 
                 title="В разработке!"
                 content={a}
                 skipDOM={true} 
-                date_add={Date.now()/1000}
+                date_add={Date.now()/1000 - (24 * 60 * 60 * i)}
                 />
                 {/each}
             </div>
