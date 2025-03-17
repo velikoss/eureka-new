@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Task, TaskFile } from "$lib";
     // import { cpp } from "@codemirror/lang-cpp";
-    import { onMount } from "svelte";
+    import { getAllContexts, getContext, hasContext, onMount } from "svelte";
     // import CodeMirror from "svelte-codemirror-editor";
     import CM from "./CM.svelte";
 
@@ -12,13 +12,19 @@
     let currentFile = $state("");
     let codemirror: CM | undefined = $state(undefined);
 
+    const contexts = getAllContexts();
+
+    let data: Response | undefined = hasContext("files") ? getContext("files") : undefined;
+
     onMount(async () => {
-        let data = await fetch("/api/getTaskFiles2", {
-            method: "POST",
-            body: JSON.stringify({
-                id: task.id,
-            })
-        });
+        if (!data) {
+            data = await fetch("/api/getTaskFiles2", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: task.id,
+                })
+            });
+        }
         let taskfiles = (await data.json()).data as TaskFile[];
         taskfiles.forEach((file) => {
             filenames.push(file.name!);
@@ -31,6 +37,7 @@
             if (f.file && f.name) {
                 currentFile = f.name;
                 codemirror?.setValue(f.file);
+                filechange[filenames.indexOf(currentFile)] = false;
             }
         }
 
@@ -130,8 +137,8 @@
         <!-- <CodeMirror bind:value={currentFileData} lang={cpp()} on:change={() => {
             filechange[filenames.indexOf(currentFile)] = true;
         }}>
-
         </CodeMirror> -->
+        {JSON.stringify(contexts)}
         <CM bind:this={codemirror} onchange={() => {
             filechange[filenames.indexOf(currentFile)] = true;
         }} />

@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import terminal from 'virtual:terminal';
 
 // Define a secret key for signing the JWT
 const SECRET_KEY = 'your-secret-key'; // Replace with a strong secret key in production

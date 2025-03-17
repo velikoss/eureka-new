@@ -1,6 +1,5 @@
 import WebSocket from 'ws';
 import { decodeJWT } from './jwt';
-import { decode } from 'jsonwebtoken';
 
 type WebSocketClientMetadata = {
     ws: WebSocket | null;

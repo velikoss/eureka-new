@@ -1,5 +1,6 @@
 import type { Task } from '$lib';
 import { redirect } from '@sveltejs/kit';
+import { hasContext, setContext } from 'svelte';
 
 export async function load({ cookies, params, fetch }) { 
     const session = cookies.get('sessionID') as string;
@@ -14,6 +15,18 @@ export async function load({ cookies, params, fetch }) {
             const json = await taskJSON.json();
             // console.log(json);
             const task = (json).data as Task;
+            if (!hasContext("files")) {
+                setContext("files", 
+                    await fetch("/api/getTaskFiles2", 
+                        {
+                            method: "POST",
+                            body: JSON.stringify({
+                                id: task.id,
+                            })
+                        }
+                    )
+                );
+            }
             resolve({
                 task
             })

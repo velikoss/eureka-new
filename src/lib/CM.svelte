@@ -23,7 +23,7 @@
             changes: {
                 from: 0,
                 to: editorView.state.doc.length,
-                insert: value,
+                insert: newValue,
             }
         });
     }

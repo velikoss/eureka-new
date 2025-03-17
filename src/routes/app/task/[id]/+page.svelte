@@ -28,8 +28,9 @@
     let isDarkMode = $state(false);
 
     // Example: Check for dark mode on mount (optional)
-    import { onMount } from 'svelte';
-    onMount(() => {
+    import { hasContext, onMount, setContext } from 'svelte';
+    
+    onMount(async () => {
         setInterval(() => {
             isDarkMode = document.documentElement.classList.contains('dark');
         }, 0)
