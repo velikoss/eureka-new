@@ -114,10 +114,62 @@ export interface Tool {
     status: number;
 }
 
-//idk here
+export interface MethodObject {
+    id: number;
+    name: string;
+    type: string;
+    desc: string;
+}
+
+export interface MethodFunction {
+    id: number;
+    name: string;
+    semantics: string;
+}
+
+export interface MethodCustom {
+    id: number;
+    name: string;
+}
+
+export interface MainMethod {
+    objects: MethodObject[];
+    functions: MethodFunction[];
+    custom: MethodCustom[];
+}
+
+export interface MethodBase {
+    id: number;
+    is_virtual: boolean;
+    name: string;
+    mod: string;
+}
+
+export interface MethodField {
+    id: number;
+    semantics: string;
+    name: string;
+    type: string;
+    mod: string;
+}
+
+export interface MethodMethod { // irony
+    id: number;
+    semantics: string;
+    name: string;
+}
+
+export interface MethodClass {
+    name: string;
+    desc: string;
+    bases: MethodBase[];
+    fields: MethodField[];
+    methods: MethodMethod[];
+}
+
 export interface Method2 {
-    main: object;
-    classes: object[];
+    main: MainMethod;
+    classes: MethodClass[];
 }
 
 // todo: any to corresponding types 

@@ -13,7 +13,7 @@ export async function load({ cookies, params, fetch }) {
                 })
             })
             const json = await taskJSON.json();
-            // console.log(json);
+            console.log(json);
             const task = (json).data as Task;
             
             resolve({

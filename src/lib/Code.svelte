@@ -107,50 +107,29 @@
             transform: translateX(0px);
         }
     }
-
-    /* Underline animation for tool text */
-    .tool-text {
-        position: relative;
-        display: inline-block;
-    }
-
-    .tool-text::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 5px;
-        width: 0;
-        height: 1px;
-        background: #000000;
-        transition: width 0.3s ease;
-    }
-
-    .tool-text.selected::after {
-        width: 100%;
-    }
 </style>
 
 <div class="code flex flex-row w-full h-full">
-    <div class="fixed top-auto md:mt-1 bottom-[6.75vh] md:top-0 md:bottom-0 md:relative file-picker w-full md:w-48 md:border-r overflow-scroll h-fit md:h-full py-1 px-3 flex flex-row md:flex-col gap-1 md:gap-2 items-start">
+    <div class="fixed top-auto md:mt-1 bottom-[6.75vh] md:top-0 md:bottom-0 md:relative file-picker w-full md:w-48 md:border-r overflow-scroll h-fit md:h-full py-1 px-3 flex flex-row md:flex-col gap-1 items-start">
         <div>
-            <p class="flex flex-row gap-2"><FolderOpen size={20} class="mt-0.5"/> include/</p>
+            <p class="flex flex-row gap-1"><FolderOpen size={16} class="mt-1"/> include/</p>
             {#each headers as view}
-            <button class="" onclick={() => selectFile(view.file.name!)}>
+            <button class="pl-5" onclick={() => selectFile(view.file.name!)}>
                 {#if currentFile === view.file.name!}
                     <span class="selected-arrow">></span>
                 {/if}
-                &emsp;&emsp;{filechange[view.index]?"*":""}{view.file.name}
+                {filechange[view.index]?"*":""}{view.file.name}
             </button>
             {/each}
         </div>
         <div>
-            <p class="flex flex-row self-start gap-2"><FolderOpen size={20} class="mt-0.5"/> sources/</p>
+            <p class="flex flex-row self-start gap-1"><FolderOpen size={16} class="mt-1"/> sources/</p>
             {#each sources as view}
-            <button onclick={() => selectFile(view.file.name!)}>
+            <button class="pl-5" onclick={() => selectFile(view.file.name!)}>
                 {#if currentFile === view.file.name!}
                     <span class="selected-arrow">></span>
                 {/if}
-                &emsp;&emsp;{filechange[view.index]?"*":""}{view.file.name}
+                {filechange[view.index]?"*":""}{view.file.name}
             </button>
             {/each}
         </div>
@@ -162,7 +141,7 @@
         {/each}
         </div>
         <button
-            class="border shadow-md w-full h-[4.5vh] md:h-fit md:py-1 rounded-md flex items-center px-2 cursor-pointer text-nowrap"
+            class="w-full h-[4.5vh] md:h-fit rounded-md flex items-center justify-start cursor-pointer text-nowrap"
             onclick={() => {}}
         >
             <p>
@@ -171,11 +150,6 @@
         </button>
     </div>
     <div class="border-b md:border-b-0 rounded-md h-[calc(100%-5.5vh)] w-full md:w-full md:h-full editor">
-        <!-- <CodeMirror bind:value={currentFileData} lang={cpp()} on:change={() => {
-            filechange[filenames.indexOf(currentFile)] = true;
-        }}>
-        </CodeMirror> -->
-        {JSON.stringify(contexts)}
         <CM bind:this={codemirror} dark onchange={() => {
             filechange[filenames.indexOf(currentFile)] = true;
             task.files[filenames.indexOf(currentFile)] = {
