@@ -179,6 +179,7 @@ export interface Task {
     _armVer: number;
     method2: Method2;
     parent_id: number;
+    __lastModified: number;
     __lastSaved: number;
     template_id: number;
     test_passed: boolean;

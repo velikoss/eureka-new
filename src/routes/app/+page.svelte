@@ -48,7 +48,7 @@
 </script>
 
 <main class="flex flex-col items-center w-screen">
-    <header class="h-[5.6vh] max-h-[60px] w-screen md:px-[calc(10vw)] border-b flex flex-row items-center justify-between">
+    <header class="h-[5.6vh] max-h-[60px] w-screen md:px-[calc(10vw)] border-b z-50 flex flex-row items-center justify-between">
         <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong>
         <div class="flex flex-row gap-1 items-center">{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs"></span> <a href="/app/login?renewToken=true"><LogOut size={18} /></a></div>
     </header>

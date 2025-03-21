@@ -48,10 +48,6 @@
                 classes = classes;
                 task.method2.classes = classes;
             } else {
-                const [item] = targetArray.splice(dragIndex, 1);
-                targetArray.splice(dropIndex, 0, item);
-                targetArray.forEach((e, i) => e.id = i + 1);
-                console.log(targetArray)
                 switch (state.sourceContainer) {
                     case "objects":
                         objects = targetArray;
@@ -175,9 +171,6 @@
 <!-- <div class="flex flex-row">
     <div class="w-64 overflow-scroll"><pre>{@html prettyPrintJson.toHtml(task.method2)}</pre></div> -->
 <div class="px-3 py-2 flex flex-col w-full">
-    <div style="" class="self-center w-1/2">
-        <News title="Объявление" content="Разработчики Авроры отключили браузерную версию системы, тем самым отрубив возможность видеть API методы. Из-за этого этот инструмент read-only 🥲" date_add={Date.now() / 1000} />
-    </div>
     <!-- ... existing sections ... -->
     <!-- Objects Section -->
     <p class="text-lg self-center">Используемые объекты</p>
@@ -305,7 +298,7 @@
                     <p class="font-medium">Базовые классы</p>
                     <div use:droppable={{ container: `bases-${classIndex}`, callbacks: { onDrop: (state) => handleDrop(state, clazz.bases) }}} class="space-y-2">
                         {#each clazz.bases as base (base.id)}
-                            {@const handle = { handleElem: null }}
+                            {@const handle = { handleElem: null as HTMLButtonElement | null }}
                             <div use:draggable={{ container: `bases-${classIndex}`, dragData: base, interactive: [".interactive"]}} class="flex gap-2 items-center">
                                 <label class="flex items-center gap-1">
                                     <input type="checkbox" bind:checked={base.is_virtual} class="rounded" />
@@ -336,7 +329,7 @@
                     <p class="font-medium">Поля</p>
                     <div use:droppable={{ container: `fields-${classIndex}`, callbacks: { onDrop: (state) => handleDrop(state, clazz.fields) }}} class="space-y-2">
                         {#each clazz.fields as field (field.id)}
-                            {@const handle = { handleElem: null }}
+                            {@const handle = { handleElem: null as HTMLButtonElement | null }}
                             <div use:draggable={{ container: `fields-${classIndex}`, dragData: field, interactive: [".interactive"]}} class="flex gap-2 items-center">
                                 <input bind:value={field.semantics} placeholder="Семантика" class="rounded-md flex-1" />
                                 <input bind:value={field.name} placeholder="Имя" class="rounded-md flex-1" />
@@ -365,7 +358,7 @@
                     <p class="font-medium">Методы</p>
                     <div use:droppable={{ container: `methods-${classIndex}`, callbacks: { onDrop: (state) => handleDrop(state, clazz.methods) }}} class="space-y-2">
                         {#each clazz.methods as method (method.id)}
-                            {@const handle = { handleElem: null }}
+                            {@const handle = { handleElem: null as HTMLButtonElement | null }}
                             <div use:draggable={{ container: `methods-${classIndex}`, dragData: method, interactive: [".interactive"]}} class="flex gap-2 items-center">
                                 <input bind:value={method.semantics} placeholder="Семантика" class="rounded-md flex-1" />
                                 <input bind:value={method.name} placeholder="Имя" class="rounded-md flex-1" />
@@ -390,3 +383,15 @@
     </div>
 </div>
 <!-- </div> -->
+
+<style>
+    @reference "../app.css";
+
+    input {
+        @apply dark:bg-black;
+    }
+
+    select {
+        @apply dark:bg-black;
+    }
+</style>
