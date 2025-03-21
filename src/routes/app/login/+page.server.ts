@@ -19,6 +19,7 @@ export const actions = {
         }
         const jwt = session ? decodeJWT(session)! : 0;
         if (!session || (!getWebSocketClient(jwt) || getWebSocketClient(jwt)?.readyState !== 1)) {
+            console.log(jwt, session, getWebSocketClient(jwt), getWebSocketClient(jwt)?.readyState)
             throw redirect(303, "/app/login?renewToken=true");
         }
 

@@ -6,7 +6,6 @@
     let {task, index, disabled}: {task: HomeTask, index: any, disabled: boolean | false} = $props();
 
     onMount(() => {
-        console.log(index)
     })
 
     // Helper function to format the task status

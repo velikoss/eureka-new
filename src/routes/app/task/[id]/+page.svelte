@@ -21,8 +21,15 @@
         "algo2": Algo,
     };
 
-    function handleToolSelected(toolId: any) {
+    async function handleToolSelected(toolId: any) {
         selectedToolId = toolId;
+        task.__lastSaved = Date.now();
+        let retask: object = task;
+        delete retask.files;
+        console.log(await (await fetch("/api/saveTask", {
+            method: "POST",
+            body: JSON.stringify(task)
+        })).text());
     }
 
     let isDarkMode = $state(false);

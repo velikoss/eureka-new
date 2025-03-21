@@ -1,7 +1,5 @@
-import { signRequest } from "$lib/server/armapi";
 import { encodeJWT } from "$lib/server/jwt";
 import { closeWebSocketConnection, connectToWebSocketServer, getClient, sendMessageToWebSocketServer } from "$lib/server/ws";
-import DarkMode from "$lib/widgets/DarkMode.svelte";
 import { redirect, type Handle } from "@sveltejs/kit";
 import { v4 } from "uuid";
 

@@ -18,7 +18,7 @@
     
     <form method="POST" class="border w-90 flex flex-col px-6 pb-6 gap-3 rounded-2xl shadow-lg {form?.error || logging ? "" : "motion-preset-blur-down"}" bind:clientHeight={formOffset}>
         <p class="relative w-fit text-center font-bold text-xl self-center px-2 -top-3.5 bg-white dark:bg-black">Eureka</p>
-        <div class="relative">
+        <div class="relative -mt-1.5">
             <input name="email" type="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
             <label for="floating_outlined" class="rounded-lg pointer-events-none absolute text-sm text-gray-500 dark:text-gray-200 {form?.error ? "duration-0" : "duration-200"} transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><User/> Login (@edu.mirea.ru)</label>
         </div>

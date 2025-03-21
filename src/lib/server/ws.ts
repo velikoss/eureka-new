@@ -86,6 +86,11 @@ export function connectToWebSocketServer(
                 version: 0,
                 user: null
             });
+            const interval = setInterval(() => {
+                if ((Date.now() - (wsClients.get(re)?.lastMessageReceivedTime??0)) <= 15 * 60 * 1000) return;
+                ws.close();
+                clearInterval(interval);
+            }, 60000)
             resolve(ws);
         });
 
