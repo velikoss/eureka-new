@@ -4,6 +4,7 @@
     import Unit from '$lib/Unit.svelte';
     import { onMount } from 'svelte';
     import { LogOut } from '@lucide/svelte';
+    import type { HomeTask, Section } from '$lib';
 
     let { data } = $props();
     let st = $state(1);
@@ -11,32 +12,59 @@
 
     // Utility function to combine tasks with units and nested sections
     function combineTasksWithUnits(units: Section[], tasks: HomeTask[]): Section[] {
-        return units.map(unit => {
+        let kursach: Section = {
+            rowid: 0,
+            section_name: "Курсовые работы",
+            section_order: 0,
+            score: 0,
+            deadline: 0,
+            deadline_week: 0,
+            max_points: 0,
+            course_id: 2,
+            nested: {},
+            tasks: tasks.filter(task => task.name.startsWith("К")),
+            description: "~ В разработке. Ничего не гарантируем"
+        };
+
+        // Process units and separate them into with tasks and without tasks
+        const unitsWithTasks: Section[] = [];
+        const unitsWithoutTasks: Section[] = [];
+
+        units.forEach(unit => {
             // Map tasks to the main unit
             let unitTasks = tasks.filter(task => task.section_id === unit.rowid);
-
+            
             // Map tasks to nested sections
             const nestedWithTasks = Object.entries(unit.nested).map(([nestedId, nestedSection]) => {
                 const nestedTasks = tasks.filter(task => task.section_id === parseInt(nestedId));
                 unitTasks = [...unitTasks, ...nestedTasks];
                 return {
-                    ...nestedSection,
                     tasks: nestedTasks
                 };
             });
 
-            return {
+            const unitWithTasks = {
                 ...unit,
                 tasks: unitTasks,
                 nested: nestedWithTasks
             };
+
+            // Check if unit has any tasks
+            if (unitTasks.length > 0) {
+                unitsWithTasks.push(unitWithTasks);
+            } else {
+                unitsWithoutTasks.push(unitWithTasks);
+            }
         });
+
+        return [
+            kursach, 
+            ...unitsWithTasks.reverse(),
+            ...unitsWithoutTasks
+        ];
     }
 
     onMount(() => {
-        // Combine tasks with units on the client side
-        combinedData = combineTasksWithUnits(data.units, data.tasks);
-
         setInterval(async () => {
             st = (parseInt(await (await fetch("/api/readyState")).text()??0));
             data.locals.user.st = st;
@@ -75,12 +103,6 @@
                                 <p class="text-sm">* {task.name}</p>
                                 <p class="text-sm">Status: {task.status}</p>
                                 <p class="text-sm">Score: {task.score ?? 'N/A'}</p>
-                            </div>
-                        {/each}
-
-                        {#each unit.nested as nested}
-                            <div class="pl-4 border-l border-black">
-                                <p class="text-sm">* {nested.section_name}</p>
                             </div>
                         {/each}
                     </Unit>

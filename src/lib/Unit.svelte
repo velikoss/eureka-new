@@ -29,6 +29,9 @@
         </span>
         <p class="text-sm text-gray-700 dark:text-gray-300">Дедлайн: {formatDeadline(section.deadline_week)}</p>
     </div>
+    {#if section.description}
+        <i class="text-gray-500 dark:text-gray-400 text-sm">{section.description}</i>
+    {/if}
 
     <!-- Nested Sections Toggle -->
     {#if section.nested.length > 0}
