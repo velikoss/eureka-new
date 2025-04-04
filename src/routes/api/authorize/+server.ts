@@ -25,14 +25,14 @@ export async function POST({ request, cookies }) {
             );
             
         } catch (e: any) {
-            console.log(e)
+            // console.log(e)
             error(500, {
                 "message": `Error on server side: ${e}`
             });
         }
     }
     else {
-        console.log("Fallback")
+        // console.log("Fallback")
         key = sha256(hash).toString();
     }
     const response = await new Promise((resolve, reject) => {

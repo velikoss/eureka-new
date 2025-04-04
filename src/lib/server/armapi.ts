@@ -2,11 +2,11 @@ import NeoScrypt from "../neoscrypt";
 import fs from "node:fs/promises";
 import file from '$lib/neoscrypt.wasm?url';
 const wasm = await fs.readFile("."+file).catch((e) => {
-    console.log(e)
+    // console.log(e)
     return undefined
 });
 const module = await WebAssembly.instantiate(wasm!.buffer).catch(e => {
-    console.log(e)
+    // console.log(e)
     return undefined
 });
 const neoscrypt = module ? new NeoScrypt((module as any).instance) : undefined;

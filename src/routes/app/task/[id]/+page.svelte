@@ -22,6 +22,9 @@
         "method2": Method,
         "algo": Algo,
         "algo2": Algo,
+        "algo-scheme": Graph,
+        "tests": Graph,
+        "report": Graph,
     };
 
     async function handleToolSelected(toolId: any) {
@@ -71,6 +74,7 @@
     // Example: Check for dark mode on mount (optional)
     import { hasContext, onMount, setContext } from 'svelte';
     import { X } from '@lucide/svelte';
+    import Graph from '$lib/Graph.svelte';
     
     onMount(async () => {
         setInterval(() => {

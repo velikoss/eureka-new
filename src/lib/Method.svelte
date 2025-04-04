@@ -23,7 +23,7 @@
         const { draggedItem, targetContainer, sourceContainer } = state;
         const dragIndex = targetArray.findIndex((item: any) => item.id === draggedItem.id);
         const dropIndex = parseInt(targetContainer ?? '0');
-        console.log(targetContainer)
+        // console.log(targetContainer)
 
         if (dragIndex !== -1) {
             const [item] = targetArray.splice(dragIndex, 1);

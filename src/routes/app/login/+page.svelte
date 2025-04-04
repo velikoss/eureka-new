@@ -38,7 +38,7 @@
             {/if}
         </button>
     </form>
-    <div class="pt-3 text-xs flex flex-row items-center gap-2 {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
+    <div class="pt-3 text-xs flex flex-col items-center {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
         Eureka v0.1.0
         <div class="relative group">
             <button class="text-black dark:text-gray-200 underline">
@@ -58,5 +58,7 @@
                         <Key size={16}/> Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
                         </div>
             </div>
-        </div></div>
+        </div>
+        Проблема с логином? Бывает...
+    </div>
 </div>

@@ -31,7 +31,7 @@
     }
 
     onMount(() => {
-        console.log(rootEl, value);
+        // console.log(rootEl, value);
         const baseTheme = EditorView.theme({
             "&": { height: "100%" },
             ".cm-editor": { height: "100%" },
