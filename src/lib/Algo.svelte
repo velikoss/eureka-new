@@ -69,9 +69,9 @@
     <p class="text-lg self-center">Алгоритм</p>
     <div class="self-center flex flex-col gap-4 w-full">
         {#each algo2List as algo2, algo2Index}
-            <div class="border rounded-lg p-4 space-y-4 pointer-events-auto flex flex-col md:flex-row">
+            <div class="border rounded-lg p-4 space-y-4 pointer-events-auto flex flex-col">
                 <!-- Algo2 Header -->
-                <div class="flex flex-row w-full md:w-128 gap-2 mr-2">
+                <div class="flex flex-row w-full gap-2 mr-2">
                     <button onclick={() => removeAlgo2(algo2Index)} class="border rounded-md p-2 w-8 h-8">
                         <Trash size={16} class="self-center" />
                     </button>
@@ -93,7 +93,7 @@
                         {#each algo2.algo as algo (algo.id)}
                             {@const handle = { handleElem: null as HTMLButtonElement | null }}
                             <div use:draggable={{ container: `algos-${algo2Index}`, dragData: algo, interactive: [".interactive"]}} class="flex flex-col md:flex-row gap-2 items-center w-full rounded-md border p-2 md:p-0 md:border-0">
-                                <p class="w-fit p-1">{algo.no}</p>
+                                <input bind:value={algo.no} placeholder="i" class="rounded-md w-12 text-center overflow-visible overscroll-none text-nowrap interactive"/>
                                 <input bind:value={algo.predicate} placeholder="Predicate" class="rounded-md w-full md:flex-1 interactive" />
                                 <input bind:value={algo.actions} placeholder="Actions" class="rounded-md w-full md:flex-1 interactive" />
                                 <input bind:value={algo.next} placeholder="Next Step" class="rounded-md w-full md:flex-1 interactive" />

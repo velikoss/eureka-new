@@ -73,7 +73,7 @@
 
     // Example: Check for dark mode on mount (optional)
     import { hasContext, onMount, setContext } from 'svelte';
-    import { X } from '@lucide/svelte';
+    import { DownloadCloudIcon, X } from '@lucide/svelte';
     import Graph from '$lib/Graph.svelte';
     
     onMount(async () => {
@@ -86,6 +86,56 @@
     function getTool(): any {
         return options[Tools[selectedToolId! - 1] as keyof typeof options];
     }
+
+
+    async function downloadTask(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
+        try {
+            // Получаем файлы задачи
+            const filesResponse = await fetch("/api/getTaskFiles2", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: task.id,
+                })
+            });
+            
+            const filesData = await filesResponse.json();
+            const files = filesData.data || [];
+            
+            // Подготавливаем данные для экспорта
+            const exportData = {
+                task: {
+                    ...task,
+                    __lastModified: undefined, // Исключаем временные поля
+                    __lastSaved: undefined
+                },
+                files: files
+            };
+            
+            // Создаем JSON строку
+            const jsonString = JSON.stringify(exportData, null, 2);
+            
+            // Создаем blob и ссылку для скачивания
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            // Создаем временную ссылку и запускаем скачивание
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `task_${task.id}_${task.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Очищаем
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+        } catch (error) {
+            console.error('Error exporting task:', error);
+            alert('Произошла ошибка при экспорте задачи');
+        }
+    }
 </script>
 
 <div class="flex flex-col">
@@ -95,8 +145,9 @@
         <a href="/app" class="w-fit text-xl text-start underline z-50 self-center"><X/></a>
     </div>
     <div class="task w-screen md:w-4/5 flex self-center flex-row">
-        <div class="bg-white dark:bg-black taskbar fixed md:relative flex flex-row top-auto bottom-0 w-screen overflow-auto md:flex-col md:w-72 h-[6vh] md:min-h-[96vh] max-h-full">
+        <div class="bg-white dark:bg-black taskbar fixed md:relative flex flex-row top-auto bottom-0 w-screen overflow-auto md:flex-col md:w-72 h-[6vh] md:min-h-[96vh] max-h-full md:items-center md:gap-2">
             <ToolsBar tools={task.tools} deflate={handleToolSelected} --dark={isDarkMode?"white":"black"} />
+            <button class="border w-[76%] h-[5vh] md:h-fit md:py-1 rounded-md flex items-center px-2 text-sm cursor-pointer text-nowrap shadow-md gap-2" onclick={downloadTask}><DownloadCloudIcon/> <span>Экспорт задачи<sup>beta</sup></span></button>
         </div>
         <div class="taskmenu overflow-scroll mb-[7vh] md:mb-0 w-full h-[88.5vh] md:min-h-[96vh] md:max-h-full border md:border-b-0 rounded-md md:rounded-b-none">
             {#if selectedToolId !== null}
