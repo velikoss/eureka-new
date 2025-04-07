@@ -2,7 +2,7 @@
     import { Tools, ToolsLang } from "$lib";
     import { onMount } from 'svelte';
 
-    let {tools, deflate} = $props();
+    let {currentId = $bindable(),tools, deflate} = $props();
     let selectedToolId: number | null = $state(null);
 
     onMount(() => {
@@ -11,6 +11,7 @@
 
     function selectTool(toolId: number) {
         selectedToolId = toolId;
+        currentId = selectedToolId;
         // Emit the selected tool ID to the parent
         deflate(toolId);
     }
@@ -58,17 +59,17 @@
     } */
 </style>
 
-<div class="px-2 tools flex flex-row md:flex-col gap-1 md:gap-2">
+<div class="pl-2 tools flex flex-row md:flex-col gap-1 md:gap-2 md:w-[86%]">
     {#each tools as tool}
         <button
             class="border w-full h-[5vh] md:h-fit md:py-1 rounded-md flex items-center px-2 cursor-pointer text-nowrap shadow-md"
             onclick={() => selectTool(tool.id)}
         >
             <p>
-                {#if selectedToolId === tool.id}
+                {#if currentId === tool.id}
                     <span class="selected-arrow text-black dark:text-white">></span>
                 {/if}
-                <span class="tool-text {selectedToolId === tool.id ? 'selected' : ''}">
+                <span class="tool-text {currentId === tool.id ? 'selected' : ''}">
                     {ToolsLang.get(Tools[tool.id - 1])}
                 </span>
             </p>

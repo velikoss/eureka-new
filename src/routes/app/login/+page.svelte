@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { User, RectangleEllipsis, LogIn, Server, Key, LoaderCircle } from "@lucide/svelte";
+    import { User, RectangleEllipsis, LogIn, Server, Key, LoaderCircle, Network } from "@lucide/svelte";
     import type { PageProps } from "../$types";
 
     let { data, form, neoscrypt }: PageProps = $props();
@@ -11,8 +11,8 @@
 
 </script>
 
-<div class="w-screen h-screen flex flex-col items-center justify-center" bind:clientHeight={screenOffset}>
-    <div style={`--customPadding:calc(${screenOffset/2 - errorOffset - formOffset / 2 - 12}px); `} class={errorOffset == 0 || !form?.error? "fixed opacity-0" : "fixed top-[var(--customPadding)] motion-preset-slide-up p-1 error -mt-6 text-center shadow-md flex flex-col items-center justify-center w-90 h-16 bg-[#eb8c95] dark:bg-[#dc3545] text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl"} bind:clientHeight={errorOffset}>
+<div class="w-screen h-screen flex flex-col items-center justify-center pt-24" bind:clientHeight={screenOffset}>
+    <div style={`--customPadding:calc(${screenOffset/2 - errorOffset - formOffset / 2 + 12}px); `} class={errorOffset == 0 || !form?.error? "fixed opacity-0" : "fixed top-[var(--customPadding)] motion-preset-slide-up p-1 error -mt-6 text-center shadow-md flex flex-col items-center justify-center w-90 h-16 bg-[#eb8c95] dark:bg-[#dc3545] text-black dark:text-white border border-black dark:border-gray-200 rounded-2xl"} bind:clientHeight={errorOffset}>
         <p>{form?.error}</p>
     </div>
     
@@ -38,8 +38,9 @@
             {/if}
         </button>
     </form>
-    <div class="pt-3 text-xs flex flex-col items-center {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
-        Eureka v0.1.0
+    <div class="pt-3 text-xs flex flex-col text-center items-center {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
+        Eureka v0.1.1<br>
+        (last update: 08.04.2025)
         <div class="relative group">
             <button class="text-black dark:text-gray-200 underline">
                 (ArmAPI Info)
@@ -50,12 +51,14 @@
                        w-max text-black dark:text-white bg-white dark:bg-black
                        border dark:border-white rounded shadow-lg 
                        opacity-0 group-hover:opacity-100 transition">
-                       <div class="flex flex-row gap-2.5 items-center justify-start mb-0.5">
+                        <div class="flex flex-row gap-2.5 items-center justify-start mb-0.5">
                         <Server size={16}/> Avrora Backend: ArmAPI
-
-                       </div>
-                       <div class="flex flex-row gap-2.5 items-center justify-center">
+                        </div>
+                        <div class="flex flex-row gap-2.5 items-center justify-start">
                         <Key size={16}/> Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
+                        </div>
+                        <div class="flex flex-row gap-2.5 items-center justify-start">
+                        <Network size={16}/> Compatible ARM Ver: 174    
                         </div>
             </div>
         </div>

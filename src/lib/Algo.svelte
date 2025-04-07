@@ -3,7 +3,7 @@
     import { Plus, X, Grid, Trash } from '@lucide/svelte';
     import type { Algo, Algo2, Task } from "$lib";
 
-    let { task }: { task: Task } = $props();
+    let { task = $bindable() }: { task: Task } = $props();
     let algo2List: Algo2[] = $state<Algo2[]>(task.algo2 || []);
 
     // Handle dropping items in the algo list
@@ -65,8 +65,6 @@
 </script>
 
 <div class="w-full space-y-4 flex flex-col py-2 px-3">
-    <!-- Algo2 Section -->
-    <p class="text-lg self-center">Алгоритм</p>
     <div class="self-center flex flex-col gap-4 w-full">
         {#each algo2List as algo2, algo2Index}
             <div class="border rounded-lg p-4 space-y-4 pointer-events-auto flex flex-col">
@@ -114,7 +112,7 @@
             </div>
         {/each}
         <button onclick={addAlgo2} class="w-full border border-dashed rounded-lg p-2">
-            Add Algo2
+            Создать алгоритм
         </button>
     </div>
 </div>

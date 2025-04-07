@@ -5,10 +5,15 @@
     import { onMount } from 'svelte';
     import { LogOut } from '@lucide/svelte';
     import type { HomeTask, Section } from '$lib';
+    import { eurekaNews } from '$lib/news';
+    import Modal from '$lib/Modal.svelte';
 
     let { data } = $props();
     let st = $state(1);
     let combinedData = $state<Section[]>([]);
+    
+    if (!data.user?.alert) data.user!.alert = -1;
+    data.user!.alert++;
 
     // Utility function to combine tasks with units and nested sections
     function combineTasksWithUnits(units: Section[], tasks: HomeTask[]): Section[] {
@@ -65,6 +70,7 @@
     }
 
     onMount(() => {
+        if (data.user!.alert === 0) showModal();
         setInterval(async () => {
             st = (parseInt(await (await fetch("/api/readyState")).text()??0));
             data.locals.user.st = st;
@@ -73,14 +79,42 @@
             }
         }, 3000);
     });
+
+    let showWelcomeModal = $state(false);
+    let welcomeMessage = $state("");
+
+    function showModal() {
+        welcomeMessage = `
+        Версия 0.1.1 <span class="text-sm">(от 08.04.2025)</span><br>
+        Текущий статус платформы:<br>
+        <div class=\"text-sm\">
+        ✅ Список задач<br>
+        ✅ Новости<br>
+        ✅ Постановка задачи<br>
+        ✅ Метод решения<br>
+        ✅ Алгоритм<br>
+        ⬛ Блок-схема<br>
+        🟨 Исходный код<br>
+        🟨 Тестирование<br>
+        ⬛ Отчёт<br>
+        🟨 Оптимизация логина<br>
+        🟨 Общая оптимизация работы системы<br>
+        </div>
+        `;
+        showWelcomeModal = true;
+    }
+
+    function closeModal() {
+        showWelcomeModal = false;
+    }
 </script>
 
-<main class="flex flex-col items-center w-screen">
-    <header class="h-[5.6vh] max-h-[60px] w-screen md:px-[calc(10vw)] border-b z-50 flex flex-row items-center justify-between">
+<main class="flex flex-col items-center w-full">
+    <header class="h-[5.6vh] max-h-[60px] w-full md:px-[calc(10vw)] border-b z-50 flex flex-row items-center justify-between">
         <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong>
         <div class="flex flex-row gap-1 items-center">{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs"></span> <a href="/app/login?renewToken=true"><LogOut size={18} /></a></div>
     </header>
-    <div class="w-screen md:max-w-4/5 md:min-w-[600px] flex flex-col md:flex-row p-2 gap-4">
+    <div class="w-full md:max-w-4/5 md:min-w-[600px] flex flex-col md:flex-row p-2 gap-4">
         <div class="w-full md:w-1/2 flex flex-col">
             {#await Promise.all([data.units, data.tasks])}
                 <!-- Loading state -->
@@ -115,48 +149,11 @@
             {/await}
         </div>
         <div class="w-full md:w-1/2 flex flex-col">
-            <News 
-  title="Сообщение от разработчиков Эврики" 
-  content={`Спасибо, что используете Эврику! Так как проект находится в ранней стадии зачатия, функционал будет дорабатываться со временем.<br/><br/>
-  
-  Подпишитесь на наш Telegram-канал чтобы следить за новыми обновлениями (<a class="text-blue-500 underline" href="https://t.me/acoeureka">тык</a>)<br>
-  Наш Github Баг-трекер: <a class="text-blue-500 underline" href="https://github.com/velikoss/eureka-issues">тык</a><br>
-  
-  Состояние Эврики сейчас:<br>
-  <div class="text-sm">
-  ✅ Список задач<br>
-  ✅ Новости<br>
-  ✅ Постановка задачи<br>
-  ✅ Метод решения<br>
-  ✅ Алгоритм<br>
-  ⬛ Блок-схема<br>
-  🟨 Исходный код<br>
-  ⬛ Тестирование<br>
-  ⬛ Отчёт<br>
-  🟨 Оптимизация логина<br>
-  🟨 Общая оптимизация работы системы<br>
-  </div>
-  <br>
-  Приколы <i class="text-sm">(проект выкидывается в публичный доступ "как есть", неотточеным до идеала, и будет обновляться)</i>:<br>
-  <div class="text-sm">
-  - Таска сохраняется переключением вкладок (пока что)<br>
-  - Файл сохраняется через Ctrl+S<br>
-  - Код не всегда появлется (скоро фикс)<br>
-  - Запуска кода пока нет<br>
-  - Блок-схемы пока не планируется из-за приколов с либами для неё<br>
-  - Перемещение элементов кривое как моя жизнь (однажды будет фикс)<br>
-  - Кривая тёмная тема местами (однажды будет фикс)<br>
-  - Аккаунт иногда может залочиться в состоянии "залогинен", проблема API Авроры, не моя<br>
-  - "Выкидывание" из аккаунта при каком-либо действии также является проблемой API Авроры, не моей (во всяком случае это случается реже чем в самой авроре)<br>
-  - Иногда может сломаться файл. Это весело, хз поч так (рекомендую иногда экспортить задачу. <i>Импорт по json задачи будет позже 😳</i>)<br>
-  - В проекте активно разрабатывает один человек, пожалейте его душу. И нет, я не расскажу ничего про то, как это работает, может быть<br>
-  - <b>Авторы Эврики всё делают для хиханек хаханек 😼 и не несут никакой ответственности за ВАШИ возможные проблемы с работами и преподавательским составом</b><br>
-  Все жалобы в баг-трекере которые относятся к приколам будет проигнорированы.
-  </div>
-  `} 
-  skipDOM={true} 
-  date_add={Date.now()/1000}>
-</News>{#await data.news then dataNews}
+            {#each eurekaNews as myNews }
+                <News title={myNews.title} content={myNews.content} date_add={myNews.date_add}/>
+            {/each}
+            
+            {#await data.news then dataNews}
                 <!-- News data is loaded -->
                 {#each dataNews as news, index}
                     <News title={news.title} content={news.content} date_add={news.date_add} index={index}></News>
@@ -167,4 +164,11 @@
             {/await}
         </div>
     </div>
+    <Modal 
+        show={showWelcomeModal} 
+        title="Добро пожаловать в Eureka!" 
+        message={welcomeMessage} 
+        onClose={closeModal}
+    />
 </main>
+

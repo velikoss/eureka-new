@@ -17,6 +17,7 @@ export interface User {
     student_patronymic: string;
     email: string | null;
     st: number | undefined;
+    alert: number | 0;
 }
 
 type WebSocketClientMap = Map<string, WebSocketClientMetadata>;
@@ -126,7 +127,10 @@ export function connectToWebSocketServer(
                 return;
             }
 
-            const { arm_task_id } = parsedMessage;
+            const { arm_task_id, success } = parsedMessage;
+            if (!success) {
+                console.log(parsedMessage);
+            }
             if (arm_task_id && callbackMap.has(arm_task_id)) {
                 const callback = callbackMap.get(arm_task_id);
                 if (callback) {

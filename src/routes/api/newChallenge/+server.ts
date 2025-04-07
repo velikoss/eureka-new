@@ -7,7 +7,7 @@ export async function GET({ cookies }) {
 
     // Wrap the WebSocket communication in a Promise
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(sessionID, `{"data":{},"ser_task":"newChallenge","arm_task_id":"${v4()}","v":170}`, (data) => {
+        sendMessageToWebSocketServer(sessionID, `{"data":{},"ser_task":"newChallenge","arm_task_id":"newChallenge_${v4()}","v":170}`, (data) => {
             if (!data.success) {
                 reject(data.error); // Handle any errors
             } else {

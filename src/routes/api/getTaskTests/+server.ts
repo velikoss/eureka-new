@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function POST({ request, cookies }) {
     const session = cookies.get('sessionID')!;
-    let _json = await request.text();
+    const { id } = await request.json();
 
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":${_json},"ser_task":"saveTaskFile","arm_task_id":"saveTaskFile_${uuidv4()}","v":170}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":${parseInt(id)},"ser_task":"getTaskTests","arm_task_id":"getTaskFiles2_${uuidv4()}","v":170}`, (data) => {
             resolve(data);
         });
     });

@@ -1,4 +1,4 @@
-import type { Task } from '$lib';
+import { Task } from '$lib';
 import { redirect } from '@sveltejs/kit';
 import { hasContext, setContext } from 'svelte';
 
@@ -14,7 +14,7 @@ export async function load({ cookies, params, fetch }) {
             })
             const json = await taskJSON.json();
             // console.log(json);
-            const task = (json).data as Task;
+            const task = JSON.stringify(new Task((json).data));
             
             resolve({
                 task

@@ -1,6 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
 import type { Component } from "svelte";
+import type { User } from "$lib/server/ws"
 
 // for information about these interfaces
 declare global {

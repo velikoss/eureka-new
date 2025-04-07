@@ -6,7 +6,7 @@
     {@html task.theory_text}
     {@html task.task_text}
 
-    <div class="w-fit border self-center">
+    <div class="w-full border self-center">
         <table class="min-w-fit max-w-full bg-white dark:bg-black border border-black dark:border-gray-200 border-collapse shadow-sm rounded-lg overflow-hidden">
             <thead class="bg-gray-50 dark:bg-gray-950 border border-black dark:border-gray-200">
                 <tr>

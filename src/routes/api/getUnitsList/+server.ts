@@ -6,7 +6,7 @@ export async function GET({ request, cookies }) {
     const session = cookies.get('sessionID');
 
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session!, `{"data":{},"ser_task":"getUnitsList","arm_task_id":"${uuidv4()}","v":170}`, (data) => {
+        sendMessageToWebSocketServer(session!, `{"data":{},"ser_task":"getUnitsList","arm_task_id":"getUnitsList_${uuidv4()}","v":170}`, (data) => {
             resolve(data);
         });
     });

@@ -29,6 +29,6 @@
 		--system-ui: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	}
 </style>
-<main class="inter w-screen">
+<main class="inter">
 	{@render children()}
 </main>

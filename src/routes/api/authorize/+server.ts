@@ -11,7 +11,7 @@ export async function POST({ request, cookies }) {
     const session = cookies.get('sessionID');
     let key: string = "";
     let challenge = await new Promise((resolve) => {
-        sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"newChallenge","arm_task_id":"${uuidv4()}","v":173}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"newChallenge","arm_task_id":"newChallenge_${uuidv4()}","v":173}`, (data) => {
             resolve(data.data);
         });
     });
@@ -36,9 +36,10 @@ export async function POST({ request, cookies }) {
         key = sha256(hash).toString();
     }
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${key}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"${uuidv4()}","v":173}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${key}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"authorize_${uuidv4()}","v":173}`, (data) => {
             resolve(data);
         });
     });
+    console.log(response);
     return json(response);
 }

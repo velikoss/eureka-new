@@ -18,6 +18,15 @@
         return taskStatusColors[status] || 'bg-white dark:bg-black text-black dark:text-white';
     };
 
+    function cutStringToStartWithCyrillic(str: string) {
+        const match = str.match(/[А-Яа-яЁёA-Za-z]/);
+        if (match) {
+            const index = match.index; // Get the index of the first Cyrillic letter
+            return str.substring(index); // Return the substring starting from that index
+        }
+        return str; // If no Cyrillic letter is found, return the original string
+    }
+
     function parseName(name: string): string {
         // Extract the number part (e.g., "2_1_3") using a regular expression
         const numberMatch = name.match(/\d+_\d+_\d+/);
@@ -30,7 +39,9 @@
         const formattedNumber = `${numberPart.replace(/_/g, '.')}`;
 
         // Replace the original number part with the formatted number
-        const formattedName = name.replace(numberPart, formattedNumber + "</b><br/>");
+        let formattedName = name.replace(numberPart, formattedNumber + "</b><br/>");
+        let second = formattedName.split("<br/>")[1];
+        formattedName = formattedName.replace(second, cutStringToStartWithCyrillic(second));
 
         // Return the formatted name as an HTML string
         return `<span><b>${formattedName}</span>`;
@@ -39,7 +50,7 @@
 
 <a href={task.status % 4 == 0 || disabled ? "javascript: void(0)" : `/app/task/${task.id}`}>
     <div
-        class="border border-black dark:border-gray-200 task rounded-lg p-4 mb-4 shadow-sm drop-shadow-sm hover:drop-shadow-lg transition
+        class="border border-black dark:border-gray-200 task rounded-lg py-2.5 px-4 mb-2 shadow-sm drop-shadow-sm hover:drop-shadow-lg transition
                {getTaskColors(task.status)}"
     >
         <!-- Task Header -->
