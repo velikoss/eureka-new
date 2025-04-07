@@ -27,14 +27,14 @@
 </script>
 
 <div class="relative w-full h-full p-8">
-    <!-- <News title="В разработке!" content="Потихоньку делаем...." date_add={Date.now()/1000}/> -->
+    <News title="В разработке!" content="Потихоньку делаем...." date_add={Date.now()/1000}/>
     <!-- <div class="w-full overflow-scroll"><pre>{@html prettyPrintJson.toHtml(task.tests)}</pre></div> -->
-    {#each testList as test }
+    <!-- {#each testList as test }
         <div class="w-full flex flex-row">
             <textarea class="flex-1" bind:value={test.test_input_data}></textarea>
             <textarea class="flex-1" bind:value={test.test_output_data}></textarea>
             <textarea class="flex-1" bind:value={test.test_comments}></textarea>
         </div>
-    {/each}
+    {/each} -->
 
 </div>
