@@ -1,34 +1,32 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-	import '../app.css';
-    import DarkMode from '$lib/widgets/DarkMode.svelte';
-    import Widget from '$lib/Widget.svelte';
-	let { children, data } = $props();
+    import { onMount, setContext } from 'svelte';
+    import '../app.css';
+    import Widgets from '$lib/Widgets.svelte';
+    
+    let { children, data } = $props();
+    let widgets: { addWidget: (name: string) => void, removeWidget: (name: string) => void };
 
-	let isDarkMode = $state(false);
-
-	onMount(() => {
-		const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        isDarkMode = savedDarkMode ?? systemPrefersDark;
-
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
+    // Example: Add dark mode widget on mount for specific pages
+    onMount(() => {
+        if (data?.showDarkModeWidget) {
+            widgets?.addWidget('darkMode');
         }
-	})
+		setContext("widgets", { widgets });
+    });
 </script>
 
+<Widgets bind:this={widgets} />
+
 <header>
-    <div class="fixed top-6 right-6 flex gap-1 z-50">
-        <DarkMode/>
-	</div>
+    <!-- Widgets are now rendered by the Widgets component -->
 </header>
+
 <style>
-	:root {
-		--system-ui: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	}
+    :root {
+        --system-ui: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
 </style>
+
 <main class="inter">
-	{@render children()}
+    {@render children()}
 </main>

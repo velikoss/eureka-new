@@ -5,6 +5,7 @@ import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
 import { moduleState } from '$lib/server/armapi';
+import { commit } from '$lib/server/git';
 
 export const actions = {
 	default: async ({ cookies, request, fetch }) => {
@@ -33,7 +34,7 @@ export const actions = {
         
         if (!user.success) {
             //console.log(user);
-            return fail(400, {error: user.error})
+            return fail(400, {error: user.error, data: {email, password}})
         } else {
             let client = getClient(session!);
             // console.log(user);
@@ -53,5 +54,6 @@ export async function load({url, cookies, fetch}) {
     }
     return {
         neoscrypt: moduleState(),
+        commit: commit(),
     }
 }

@@ -2,9 +2,10 @@ import { Task } from '$lib';
 import { redirect } from '@sveltejs/kit';
 import { hasContext, setContext } from 'svelte';
 
-export async function load({ cookies, params, fetch }) { 
+export async function load({ cookies, params, fetch, parent }) { 
     const session = cookies.get('sessionID') as string;
     if (session) {
+        await parent();
         const response = await new Promise(async (resolve, reject) => {
             const taskJSON = await fetch("/api/getTask", {
                 method: "POST",

@@ -17,7 +17,7 @@
     onclick={handleBackdropClick}
 >
     <div 
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6"
+        class="bg-white border dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6"
     >
         <h2 class="text-xl font-bold mb-2">{title}</h2>
         <p class="mb-4">{@html message}</p>

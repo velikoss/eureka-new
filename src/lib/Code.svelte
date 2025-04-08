@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Task, TaskFile } from "$lib";
-    import { getAllContexts, onMount } from "svelte";
+    import { getAllContexts, getContext, onDestroy, onMount } from "svelte";
     import CM from "./CM.svelte";
-    import { FolderOpen, Plus } from "@lucide/svelte";
+    import { FolderOpen, Plus, Play } from "@lucide/svelte";
 
     let {task = $bindable(), deflate, dark = $bindable()}: {task: Task, deflate: any, dark: boolean | false } = $props();
     let filenames: string[] = $state([]);
@@ -11,8 +11,6 @@
     let currentFile = $state("");
     let codemirror: CM | undefined = $state(undefined);
     let newFileName = $state("");
-
-    const contexts = getAllContexts();
 
     let headers: FileView[] = $state([])
     let sources: FileView[] = $state([])
@@ -47,6 +45,10 @@
         }
     };
 
+    console.log(getAllContexts())
+    getContext("widgets")?.widgets?.addWidget('runProject');
+
+
     onMount(async () => {
         await loadFiles();
         
@@ -66,6 +68,10 @@
             }
         });
     });
+
+    onDestroy(() => {
+        getContext("widgets")?.widgets?.removeWidget('runProject');
+    })
 
     async function loadFiles(fetchFiles: boolean = true) {
         if ((!task.files || task.files.length < 1) && fetchFiles) {

@@ -1,3 +1,10 @@
+import type { Component } from 'svelte';
+
+export type WidgetConfig = {
+    component: Component;
+    position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+};
+
 export class NestedSection {
     rowid: number;
     section_name: string;

@@ -8,6 +8,8 @@
     import ToolsBar from '$lib/ToolsBar.svelte';
     import Algo from '$lib/Algo.svelte';
 
+    console.log(getAllContexts())
+
     let task: Task = $state(JSON.parse(page.data.task));
     let selectedToolId: number | null = $state(null);
     $effect(() => {
@@ -72,7 +74,7 @@
     let isDarkMode = $state(false);
 
     // Example: Check for dark mode on mount (optional)
-    import { hasContext, onMount, setContext } from 'svelte';
+    import { getAllContexts, hasContext, onMount, setContext } from 'svelte';
     import { DownloadCloudIcon, UploadCloudIcon, X } from '@lucide/svelte';
     import Graph from '$lib/Graph.svelte';
     import Tests from '$lib/Tests.svelte';
@@ -109,7 +111,7 @@
                     __lastModified: undefined, // Исключаем временные поля
                     __lastSaved: undefined
                 },
-                files: files
+                // files: files
             };
             
             // Создаем JSON строку

@@ -75,6 +75,7 @@
         content={content[0]}
         skipDOM={true} 
         date_add={Date.now()/1000}
+        alwaysExpanded={true}
         />
     </div>
 </div>
