@@ -46,7 +46,7 @@
     };
 
     console.log(getAllContexts())
-    getContext("widgets")?.widgets?.addWidget('runProject');
+    getContext("widgets")?.widgets?.addWidget('runProject', task);
 
 
     onMount(async () => {
@@ -240,7 +240,7 @@
         </div>
     </div>
     <div class="border-b md:border-b-0 rounded-md h-[calc(100%-5.5vh)] w-full md:w-full md:h-full editor">
-        <CM bind:this={codemirror} {dark} on:change={() => {
+        <CM bind:this={codemirror} {dark} onchange={() => {
             filechange[filenames.indexOf(currentFile)] = true;
             task.files[filenames.indexOf(currentFile)] = {
                 name: currentFile,

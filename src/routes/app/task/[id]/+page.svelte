@@ -8,7 +8,7 @@
     import ToolsBar from '$lib/ToolsBar.svelte';
     import Algo from '$lib/Algo.svelte';
 
-    console.log(getAllContexts())
+    // console.log(getAllContexts())
 
     let task: Task = $state(JSON.parse(page.data.task));
     let selectedToolId: number | null = $state(null);
@@ -66,20 +66,26 @@
             method: "POST",
             body: taskJsonString
         })
-        if ((await data.json()).success === true) {
+        let json = (await data.json());
+        if (json.success === true) {
             task.__lastSaved = task.__lastModified;
+        } else {
+            welcomeMessage = json;
+            showModal();
         }
     }
 
     let isDarkMode = $state(false);
 
     // Example: Check for dark mode on mount (optional)
-    import { getAllContexts, hasContext, onMount, setContext } from 'svelte';
+    import { getAllContexts, getContext, hasContext, onMount, setContext } from 'svelte';
     import { DownloadCloudIcon, UploadCloudIcon, X } from '@lucide/svelte';
     import Graph from '$lib/Graph.svelte';
     import Tests from '$lib/Tests.svelte';
+    import Modal from '$lib/Modal.svelte';
     
     onMount(async () => {
+        getContext("task").task = task;
         setInterval(() => {
             isDarkMode = document.documentElement.classList.contains('dark');
         }, 0)
@@ -237,6 +243,17 @@
         isImporting = false;
         showImportSuccess = false;
     }
+
+    let showWelcomeModal = $state(false);
+    let welcomeMessage = $state("");
+
+    function showModal() {
+        showWelcomeModal = true;
+    }
+
+    function closeModal() {
+        showWelcomeModal = false;
+    }
 </script>
 
 <div class="flex flex-col">
@@ -266,6 +283,13 @@
         </div>
     </div>
 </div>
+
+<Modal 
+    show={showWelcomeModal} 
+    title="Ошибка" 
+    message={welcomeMessage} 
+    onClose={closeModal}
+/>
 
 {#if showImportModal}
 <!-- svelte-ignore a11y_click_events_have_key_events -->

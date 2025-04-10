@@ -28,9 +28,10 @@
             .filter(widget => widget.persistent);
     });
 
-    export function addWidget(widgetName: string) {
+    export function addWidget(widgetName: string, args: any) {
         if (availableWidgets[widgetName] && !activeWidgets.some(w => w.name === widgetName)) {
-            activeWidgets = [...activeWidgets, availableWidgets[widgetName]];
+            let newWidget = availableWidgets[widgetName];
+            activeWidgets = [...activeWidgets, newWidget];
         }
     }
 

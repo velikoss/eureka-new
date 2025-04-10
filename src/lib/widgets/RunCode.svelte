@@ -2,15 +2,14 @@
 <script lang="ts">
     import Widget from '$lib/Widget.svelte';
     import { Play } from '@lucide/svelte';
-    import type { TaskFile } from '$lib';
+    import type { Task, TaskFile } from '$lib';
+    import { getAllContexts, getContext, onMount } from 'svelte';
     
     let input = $state("");
     let output = $state("");
     let isRunning = $state(false);
     
-    // These will be provided by the parent component
-    let getProjectFiles = () => [] as TaskFile[];
-    let taskId = $state("");
+    let task: Task | undefined = $state();
 
     async function runProject() {
         if (isRunning) return;
@@ -19,25 +18,27 @@
         output = "Compiling and running project...\n";
         
         try {
-            const response = await fetch("/api/runProject", {
+            const response = await fetch("/api/runTaskWithInput", {
                 method: "POST",
                 body: JSON.stringify({
-                    taskId,
-                    files: getProjectFiles().map(file => ({
-                        name: file.name,
-                        content: file.file
-                    }))
+                    idTask: task.id,
+                    input: input
                 })
             });
             
-            const result = await response.json();
-            output = result.success ? result.output : "Error: " + result.error;
+            const result = (await response.json()).data;
+            output = (result.code??-1) === 0 ? result.stdout : `${result.stdout}\n${result.stderr}`;
         } catch (error) {
             output = "Failed to execute project: " + error;
         } finally {
             isRunning = false;
         }
     }
+
+    onMount(() => {
+        task = getContext("task").task;
+        console.log(getAllContexts());
+    })
 </script>
 
 <Widget callback={runProject}>
@@ -62,6 +63,6 @@
                 Очистить
             </button>
         </div>
-        <pre class="text-xs whitespace-pre-wrap">{output}</pre>
+        <pre class="text-xs whitespace-pre-wrap text-left">{output}</pre>
     </div>
 </Widget>

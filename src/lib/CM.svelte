@@ -58,9 +58,7 @@
     })
 
     $effect(() => {
-        if (editorView !== undefined && (!didJustChange || initial)) {
-            
-        }
+        (editorView !== undefined && (!didJustChange || initial));
     });
 </script>
 

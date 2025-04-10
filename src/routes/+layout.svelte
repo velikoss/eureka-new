@@ -2,6 +2,7 @@
     import { onMount, setContext } from 'svelte';
     import '../app.css';
     import Widgets from '$lib/Widgets.svelte';
+    import { Task } from '$lib';
     
     let { children, data } = $props();
     let widgets: { addWidget: (name: string) => void, removeWidget: (name: string) => void };
@@ -12,6 +13,7 @@
             widgets?.addWidget('darkMode');
         }
 		setContext("widgets", { widgets });
+		setContext("task", { task: undefined });
     });
 </script>
 
