@@ -5,7 +5,7 @@ import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
 import { moduleState } from '$lib/server/armapi';
-import { commit } from '$lib/server/git';
+import { commit, commitDate } from '$lib/server/git';
 
 export const actions = {
 	default: async ({ cookies, request, fetch }) => {
@@ -55,5 +55,6 @@ export async function load({url, cookies, fetch}) {
     return {
         neoscrypt: moduleState(),
         commit: commit(),
+        commitDate: (await commitDate()).mtime.toDateString(),
     }
 }

@@ -3,7 +3,8 @@
     import Widget from '$lib/Widget.svelte';
     import { Play } from '@lucide/svelte';
     import type { TaskFile } from '$lib';
-
+    
+    let input = $state("");
     let output = $state("");
     let isRunning = $state(false);
     
@@ -41,14 +42,24 @@
 
 <Widget callback={runProject}>
     <Play size={16} class={isRunning ? "animate-pulse" : ""} />
-    <div class="absolute top-full right-0 mt-2 w-96 bg-white dark:bg-gray-800 shadow-lg rounded p-2 z-50 max-h-96 overflow-auto">
+    <div class="absolute top-full right-0 mt-2 w-84 bg-white dark:bg-gray-800 shadow-lg rounded p-2 z-50 max-h-96 overflow-auto">
         <div class="flex justify-between items-center mb-2">
-            <span class="font-bold">Project Output</span>
+            <span class="font-bold">Входные данные</span>
+            <button 
+                on:click|stopPropagation={() => input = ""} 
+                class="text-xs p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+            >
+                Очистить
+            </button>
+        </div>
+        <textarea name="Input" class="w-full" on:click|stopPropagation bind:value={input}></textarea>
+        <div class="flex justify-between items-center mb-2">
+            <span class="font-bold">Выходные данные</span>
             <button 
                 on:click|stopPropagation={() => output = ""} 
                 class="text-xs p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
             >
-                Clear
+                Очистить
             </button>
         </div>
         <pre class="text-xs whitespace-pre-wrap">{output}</pre>
