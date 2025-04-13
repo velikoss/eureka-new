@@ -26,7 +26,7 @@
         "algo2": Algo,
         "algo-scheme": Graph,
         "tests": Tests,
-        "report": Graph,
+        "report": Report,
     };
 
     async function handleToolSelected(toolId: any) {
@@ -83,6 +83,7 @@
     import Graph from '$lib/Graph.svelte';
     import Tests from '$lib/Tests.svelte';
     import Modal from '$lib/Modal.svelte';
+    import Report from '$lib/Report.svelte';
     
     onMount(async () => {
         getContext("task").task = task;

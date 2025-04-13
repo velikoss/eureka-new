@@ -2,6 +2,28 @@ import type { News } from "$lib";
 
 export const eurekaNews: News[] = [
     {
+        "title": "Eureka<sup>beta</sup> Update 0.1.2",
+        "content": `Спасибо, что используете Эврику! Воскресный апдейт, всем ку<br>
+        Добавлено и исправлено:<br>
+        <div class="text-sm">
+        - Запуск кода<br>
+        - Read-Only Тестирование (<a class="underline" href="https://telegra.ph/API-Avrory-i-s-chem-ego-edyat-pt-1-04-13">почему пока так</a>)<br>
+        - Скачивание проверенных отчётов<br>
+        - Генерация отчёта (Пока только в PDF, без отправки)<br>
+        - Новый лого! (тоже в разработке, спасибо <a class="underline" href="https://t.me/artchangel123">Мише</a>)<br>
+        - Чуть изменён дизайн<br>
+        - Добавлена система тостов для уведомлений<br>
+        - Минорно-мажорные фиксы, про которые я забыл<br>
+        </div>
+        Что хочу от 0.1.3:
+        <div class="text-sm">
+        - R/W Тестирование<br>
+        - И дальше чето придумаю
+        </div>
+        `,
+        "date_add": "1744542657"
+    },
+    {
         "title": "Eureka<sup>beta</sup> Update 0.1.1",
         "content": `Спасибо, что используете Эврику! Мой первый девблог эврики, feeling a little nervous<br>
         Добавлено и исправлено:<br>
@@ -19,7 +41,7 @@ export const eurekaNews: News[] = [
         - Генерация отчёта<br>
         </div>
         `,
-        "date_add": "1743990000"
+        "date_add": "1743990000",
     },
     {
         "title": "Eureka<sup>beta</sup> 0.1.0 FAQ",

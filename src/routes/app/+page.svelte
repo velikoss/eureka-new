@@ -85,7 +85,7 @@
 
     function showModal() {
         welcomeMessage = `
-        Версия 0.1.1 <span class="text-sm">(от 08.04.2025)</span><br>
+        Версия 0.1.2 <span class="text-sm">(от 13.04.2025)</span><br>
         Текущий статус платформы:<br>
         <div class=\"text-sm\">
         ✅ Список задач<br>
@@ -95,8 +95,8 @@
         ✅ Алгоритм<br>
         ⬛ Блок-схема<br>
         🟨 Исходный код<br>
-        ⬛ Тестирование<br>
-        ⬛ Отчёт<br>
+        🟨 Тестирование<br>
+        🟨 Отчёт<br>
         🟨 Оптимизация логина<br>
         🟨 Общая оптимизация работы системы<br>
         </div>
@@ -110,8 +110,11 @@
 </script>
 
 <main class="flex flex-col items-center w-full">
-    <header class="h-[5.6vh] max-h-[60px] w-full md:px-[calc(10vw)] border-b z-50 flex flex-row items-center justify-between">
-        <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong>
+    <header class="h-[5.6vh] max-h-[60px] w-full md:px-[calc(11vw)] border-b z-40 flex flex-row items-center justify-between">
+        <div class="flex flex-row justify-center items-center">
+        <img src="Eureka.png" width="40px" alt="Eureka" class="dark:invert">
+        <!-- <strong class="text-xl ml-3">Eureka<sup>beta</sup></strong> -->
+        </div>
         <div class="flex flex-row gap-1 items-center">{data.locals.user.student_suname} {data.locals.user.student_name.substring(0,1)}.{data.locals.user.student_patronymic.substring(0,1)}. ({data.locals.user.group_name}) <span class="text-xs"></span> <a href="/app/login?renewToken=true"><LogOut size={18} /></a></div>
     </header>
     <div class="w-full md:max-w-4/5 md:min-w-[600px] flex flex-col md:flex-row p-2 gap-4">

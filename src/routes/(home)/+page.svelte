@@ -2,7 +2,7 @@
     import { browser } from "$app/environment";
     import News from "$lib/News.svelte";
     import Unit from "$lib/Unit.svelte";
-    import { ArrowDown, Book, Newspaper } from "@lucide/svelte";
+    import { ArrowDown, Book, Newspaper, LoaderCircle } from "@lucide/svelte";
     import { onDestroy, onMount } from "svelte";
 
     let height = $state(0);
@@ -63,12 +63,16 @@
 </script>
 
 <header>
-    <div class="hidden w-fit text-nowrap fixed top-8 left-auto right-20 motion-preset-wobble-sm motion-duration-2000 text-right md:flex gap-1">
+    <div class={height === 0 ? "flex flex-col w-full h-screen items-center justify-center" : "opacity-0"}>
+        <LoaderCircle class="motion-preset-spin"/>
+        <p class="motion-preset-blur-down-sm">Welcome to Eureka</p>
+    </div>
+    <div class={height === 0 ? "opacity-0" : "hidden w-fit text-nowrap fixed top-8 left-auto right-20 motion-preset-wobble-sm motion-duration-2000 text-right md:flex gap-1"}>
         <p class="inline-block dark:hidden text-black">У нас есть тёмная тема 👉</p>
         <p class="hidden dark:inline-block text-white">У нас есть светлая тема 👉</p>
 	</div>
 </header>
-<div class={height === 0 ? "opacity-0" : `w-full h-[calc(50vh-var(--customPadding))] flex justify-center items-center pb-40`} style={`--customPadding:${height/2}px`}>
+<div class={height === 0 ? "opacity-0" : `w-full h-[calc(50vh-var(--customPadding))] flex justify-center items-center pb-40`} style={`--customPadding:${height/2+40}px`}>
     <div style="zoom: 75%;" class="p-5 w-162 h-10 transform backface-hidden transform-gpu scale-3d translate-z-0 subpixel-antialiased perspective-[1px] motion-preset-blur-down-lg motion-delay-1500">
         <News 
         title="В разработке!"
@@ -81,7 +85,7 @@
 </div>
 <div class={height === 0 ? "opacity-0" : "w-full pb-5 motion-preset-blur-down-lg"} bind:clientHeight={height}>
     <div class="w-full flex flex-col justify-center items-center">
-        <img width="256px" class="-m-16 -mt-10 h-[256px] w-[256px]" src="/eureka-transparent.png" alt="eureka logo">
+        <img width="256px" class="w-[256px] mb-4" src="/Eureka.png" alt="eureka logo">
         <p class="font-bold text-9xl dark:[text-shadow:_0_5px_20px_#ffffff33]">Eureka</p>
         <p class="text-xl">Эволюция, а не революция</p>
     </div>
@@ -95,7 +99,7 @@
         <ArrowDown class="motion-translate-y-loop-100 motion-duration-[2s]"></ArrowDown>
     {/if}
 </div>
-<div class={height === 0 ? "hidden" : "w-screen flex flex-col items-center gap-y-10 pb-5"}>
+<div class={height === 0 ? "hidden" : "w-full flex flex-col items-center gap-y-10 pb-5"}>
     <div class="w-screen md:w-4/5 flex flex-col md:flex-row p-2 gap-4">
         <div class="w-full md:w-1/2 flex flex-row justify-center md:justify-end">
             <div style="zoom: 60%;" class="w-full md:w-3/4">
