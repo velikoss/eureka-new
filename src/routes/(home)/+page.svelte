@@ -67,7 +67,7 @@
         <LoaderCircle class="motion-preset-spin"/>
         <p class="motion-preset-blur-down-sm">Welcome to Eureka</p>
     </div>
-    <div class={height === 0 ? "opacity-0" : "hidden w-fit text-nowrap fixed top-8 left-auto right-20 motion-preset-wobble-sm motion-duration-2000 text-right md:flex gap-1"}>
+    <div class={height === 0 ? "opacity-0" : "hidden w-fit text-nowrap fixed top-8 left-auto right-24 motion-preset-wobble-sm motion-duration-2000 text-right md:flex gap-1"}>
         <p class="inline-block dark:hidden text-black">У нас есть тёмная тема 👉</p>
         <p class="hidden dark:inline-block text-white">У нас есть светлая тема 👉</p>
 	</div>
@@ -85,7 +85,7 @@
 </div>
 <div class={height === 0 ? "opacity-0" : "w-full pb-5 motion-preset-blur-down-lg"} bind:clientHeight={height}>
     <div class="w-full flex flex-col justify-center items-center">
-        <img width="256px" class="w-[256px] mb-4" src="/Eureka.png" alt="eureka logo">
+        <img width="256px" class="w-[256px] mb-4 dark:invert dark:[drop-shadow:_0_5px_20px_#ffffff33]" src="/Eureka.png" alt="eureka logo">
         <p class="font-bold text-9xl dark:[text-shadow:_0_5px_20px_#ffffff33]">Eureka</p>
         <p class="text-xl">Эволюция, а не революция</p>
     </div>

@@ -47,7 +47,7 @@
         </button>
     </form>
     <div class="pt-3 text-xs flex flex-col text-center items-center {form?.error || logging ? "" : "motion-preset-blur-down motion-delay-200"}">
-        Eureka v0.1.2pre ({data.commit})<br>
+        Eureka v0.1.2 ({data.commit})<br>
         (last update: {data.commitDate})
         <div class="relative group">
             <button class="text-black dark:text-gray-200 underline">
