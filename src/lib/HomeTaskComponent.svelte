@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import { _taskStatusNames, taskStatusColors, type HomeTask } from '$lib';
     import { StickyNote } from "@lucide/svelte";
     import { onMount } from 'svelte';
@@ -46,9 +47,14 @@
         // Return the formatted name as an HTML string
         return `<span><b>${formattedName}</span>`;
     }
+
+    async function getReport() {
+        if (!browser) return;
+        window.open(`/app/report/${task.id}`);
+    }
 </script>
 
-<a href={task.status % 4 == 0 || disabled ? "javascript: void(0)" : `/app/task/${task.id}`}>
+<a href={task.status % 4 == 0 || disabled ? "javascript: void(0)" : `/app/task/${task.id}`} onclick={disabled ? () => {} : getReport}>
     <div
         class="border border-black dark:border-gray-200 task rounded-lg py-2.5 px-4 mb-2 shadow-sm drop-shadow-sm hover:drop-shadow-lg transition
                {getTaskColors(task.status)}"

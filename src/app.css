@@ -17,6 +17,15 @@ body {
   @apply bg-white dark:bg-black text-black dark:text-white;
 }
 
+.parent {
+  height: 100% !important;
+  zoom: 70%;
+}
+
+.line {
+  zoom:130%
+}
+
 /* idi nahuy */
 .cm-editor {
   height: 100% !important;
