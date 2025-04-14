@@ -434,5 +434,5 @@ export const taskStatusColors = {
     5: 'bg-orange-100 text-orange-800 dark:bg-orange-600 dark:text-white',
     6: 'bg-purple-100 text-purple-800 dark:bg-purple-600 dark:text-white',
     7: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-white',
-    8: 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-white',
+    8: 'bg-red-100 text-red-800 dark:bg-red-600 dark:text-white bg-[url(Magma.png)] dark:bg-none',
 };

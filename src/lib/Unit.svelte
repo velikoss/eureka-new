@@ -33,29 +33,6 @@
         <i class="text-gray-500 dark:text-gray-400 text-sm">{section.description}</i>
     {/if}
 
-    <!-- Nested Sections Toggle -->
-    {#if section.nested.length > 0}
-        <div class="w-full border-black dark:border-gray-200 pt-2">
-            <button
-                onclick={toggleNested}
-                class="text-sm w-full text-left transition text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
-            >
-                {showNested ? '< Скрыть содержание' : '> Показать содержание'}
-            </button>
-        </div>
-    {/if}
-
-    <!-- Nested Sections (Conditionally Rendered) -->
-    {#if showNested && section.nested.length > 0}
-        <div class="mt-2">
-            {#each section.nested as nested}
-                <div class="pl-4 border-l border-black dark:border-gray-200">
-                    <p class="text-sm">* {nested.section_name}</p>
-                </div>
-            {/each}
-        </div>
-    {/if}
-
     <div class="mt-3 mb-4 border-t border-black dark:border-gray-200"></div>
 
     <!-- Tasks within the main section -->

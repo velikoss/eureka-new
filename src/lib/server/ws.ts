@@ -130,6 +130,7 @@ export function connectToWebSocketServer(
             const { arm_task_id, success } = parsedMessage;
             if (!success) {
                 console.log(parsedMessage);
+                
             }
             if (arm_task_id && callbackMap.has(arm_task_id)) {
                 const callback = callbackMap.get(arm_task_id);
