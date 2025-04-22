@@ -62,6 +62,9 @@
                         <div class="flex flex-row gap-2.5 items-center justify-start mb-0.5">
                         <Server size={16}/> Avrora Backend: ArmAPI
                         </div>
+                        <div class="flex flex-row gap-2.5 items-center justify-start mb-0.5">
+                        🇷🇺 API Proxy: MSK
+                        </div>
                         <div class="flex flex-row gap-2.5 items-center justify-start">
                         <Key size={16}/> Crypt: {(data as any).neoscrypt ? "Neoscrypt (WASM)" : "Fallback (Unstable)"}
                         </div>
