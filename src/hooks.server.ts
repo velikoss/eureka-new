@@ -19,13 +19,13 @@ export const handle: Handle = async ({ event, resolve }) => {
         var id = v4();
         var sessionID = encodeJWT(id);
         event.cookies.set('sessionID', sessionID, { path: '/', httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production", });
-        await connectToWebSocketServer(sessionID, "wss://mirea.aco-avrora.ru/student/arm/", {
+        await connectToWebSocketServer(sessionID, "ws://77.110.105.188:8080", {
 // "Connection": "Upgrade",
 // "Pragma": "no-cache",
 // "Cache-Control": "no-cache",
-"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 QtWebEngine/5.15.2 Chrome/83.0.4103.122 Firefox/133.0",
+// "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 QtWebEngine/5.15.2 Chrome/83.0.4103.122 Firefox/133.0",
 // "Upgrade": "websocket",
-"Origin": "https://mirea.aco-avrora.ru",
+// "Origin": "https://mirea.aco-avrora.ru",
 // "Accept-Encoding": "gzip, deflate, br",
         });
         // const response = await new Promise((resolve) => {
