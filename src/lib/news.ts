@@ -2,6 +2,13 @@ import type { News } from "$lib";
 
 export const eurekaNews: News[] = [
     {
+        "title": "Eureka<sup>beta</sup> Update 0.1.2-hotfix1",
+        "content": `Спасибо, что используете Эврику!<br>
+        Столкнулись с баном от создателей Авроры, но мы не сломались ;)
+        `,
+        "date_add": "1745322065"
+    },
+    {
         "title": "Eureka<sup>beta</sup> Update 0.1.2",
         "content": `Спасибо, что используете Эврику! Воскресный апдейт, всем ку<br>
         Добавлено и исправлено:<br>

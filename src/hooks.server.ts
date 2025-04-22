@@ -23,7 +23,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 // "Connection": "Upgrade",
 // "Pragma": "no-cache",
 // "Cache-Control": "no-cache",
-"User-Agent": "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/83.0.4103.122 Safari/537.36",
+"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 QtWebEngine/5.15.2 Chrome/83.0.4103.122 Firefox/133.0",
 // "Upgrade": "websocket",
 "Origin": "https://mirea.aco-avrora.ru",
 // "Accept-Encoding": "gzip, deflate, br",
