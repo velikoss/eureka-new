@@ -7,7 +7,7 @@ export async function POST({ request, cookies }) {
     const { id } = await request.json();
 
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":${parseInt(id)},"ser_task":"getTaskReport","arm_task_id":"getTaskReport_${uuidv4()}","v":170}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":${parseInt(id)},"ser_task":"getTaskReport","arm_task_id":"getTaskReport_${uuidv4()}","v":190}`, (data) => {
             resolve(data);
         });
     });

@@ -7,7 +7,7 @@ export async function POST({ request, cookies }) {
     let _json = await request.text();
 
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":${_json},"ser_task":"saveTaskFile","arm_task_id":"saveTaskFile_${uuidv4()}","v":170}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":${_json},"ser_task":"saveTaskFile","arm_task_id":"saveTaskFile_${uuidv4()}","v":190}`, (data) => {
             resolve(data);
         });
     });

@@ -17,6 +17,7 @@
 		setContext("widgets", { widgets });
 		setContext("toast", { toasts });
 		setContext("task", { task: undefined });
+		setContext("data", { data });
     });
 </script>
 

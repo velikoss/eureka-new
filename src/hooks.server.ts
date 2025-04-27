@@ -7,11 +7,13 @@ export const handle: Handle = async ({ event, resolve }) => {
     const session = event.cookies.get("sessionID"); 
     const client = getClient(session??"0");
 
-    const renew = event.url.searchParams.get("renewToken");
+    console.log(event.url)
+
+    const renew = event.url.searchParams.get("renewToken") || event.url.searchParams.get("re");
 
     if (session && client && client.user && !renew) {
         event.locals.user = getClient(session)?.user;
-    } else if ((event.url.href.includes("/app") && !event.url.href.includes("/app/login")) || renew) {
+    } else if ((event.url.href.includes("/app") && !event.url.href.includes("login")) || renew) {
         if (renew) {
             // console.log("Requested renew"); 
             closeWebSocketConnection(session??"0");
@@ -33,7 +35,6 @@ export const handle: Handle = async ({ event, resolve }) => {
         //         resolve(data.data)
         //     });
         // });
-    
         return redirect(307, "/app/login");
     }
     

@@ -7,36 +7,44 @@ import { moduleState, signRequest } from '$lib/server/armapi';
 import { BugIcon } from '@lucide/svelte';
 
 export async function POST({ request, cookies }) {
-    const {email, password} = await request.json();
+    const {email, password, key} = await request.json();
+    let newKey = key;
     const session = cookies.get('sessionID');
-    let key: string = "";
-    let challenge = await new Promise((resolve) => {
-        sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"newChallenge","arm_task_id":"newChallenge_${uuidv4()}","v":173}`, (data) => {
+    let version = await new Promise((resolve) => {
+        sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"getStudentArmVersion","arm_task_id":"newChallenge_${uuidv4()}","v":173}`, (data) => {
             resolve(data.data);
         });
     });
-
-    var hash = Md5.hashStr(`0_${password}_${challenge}`);
-    if (moduleState()) {
-        try {
-            key = signRequest(
-                email != parseInt(email) ? sha256(email).words[0] : email, 
-                hash
-            );
-            
-        } catch (e: any) {
-            // console.log(e)
-            error(500, {
-                "message": `Error on server side: ${e}`
+    console.log(version);
+    if (!key) {
+        let challenge = await new Promise((resolve) => {
+            sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"newChallenge","arm_task_id":"newChallenge_${uuidv4()}","v":${version}}`, (data) => {
+                resolve(data.data);
             });
+        });
+        var hash = Md5.hashStr(`0_${password}_${challenge}`);
+
+        if (moduleState()) {
+            try {
+                newKey = signRequest(
+                    email != parseInt(email) ? sha256(email).words[0] : email, 
+                    hash
+                );
+                
+            } catch (e: any) {
+                // console.log(e)
+                error(500, {
+                    "message": `Error on server side: ${e}`
+                });
+            }
+        }
+        else {
+            // console.log("Fallback")
+            newKey = sha256(hash).toString();
         }
     }
-    else {
-        // console.log("Fallback")
-        key = sha256(hash).toString();
-    }
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${key}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"authorize_${uuidv4()}","v":173}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${newKey}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"${(Math.random() * 10000000).toFixed(0)}","v":${version}}`, (data) => {
             resolve(data);
         });
     });
