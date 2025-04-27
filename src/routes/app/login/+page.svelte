@@ -4,7 +4,7 @@
     import { getContext, onMount } from "svelte";
     import { browser } from "$app/environment";
     import ArmApi from "$lib/ArmAPI.svelte";
-    import CryptoJS from 'crypto-js/sha256';
+    import CryptoJS from "crypto-js";
     import { Md5 } from "ts-md5";
 
     let { data, form }: PageProps = $props();
@@ -14,6 +14,8 @@
     let formOffset = $state(0);
     let screenOffset = $state(0);
     let showPassword = $state(false);
+    let email = $state("");
+    let password = $state("");
     let armAPI = $state();
     let toastService = $state();
     let debugLog = $state<string[]>([]); // Better debug logging
@@ -21,6 +23,7 @@
     onMount(() => {
         if (!browser) return;
         toastService = getContext('toast').toasts;
+        
     });
 
     function addDebugLog(message: string) {
@@ -57,27 +60,21 @@
             addDebugLog(`Received challenge: ${challengeData}`);
 
             // 2. Generate hash
-            const password = form?.data.password;
             const hash = Md5.hashStr(`0_${password}_${challengeData}`);
-            addDebugLog(`Generated hash: ${hash}`);
+            addDebugLog(`Generated hash: ${hash} 0_${password}_${challengeData}`);
 
             // 3. Sign request with ArmAPI
             addDebugLog("Signing request with ArmAPI");
-            const userId = form?.data.email !== parseInt(form?.data.email) 
-                ? String(CryptoJS(form?.data.email).words[0]) 
-                : form?.data.email;
+            const userId = CryptoJS.SHA256(email).words[0]
+            addDebugLog(userId);
             
             const key = await new Promise<string>((resolve, reject) => {
                 try {
                     armAPI.signRequest(
-                        userId, 
-                        hash,
+                        userId as any, 
+                        hash as any,
                         (d: any) => {
-                            if (typeof d === 'string') {
-                                resolve(d);
-                            } else {
-                                reject(new Error("Invalid key response from ArmAPI"));
-                            }
+                            resolve(d);
                         }
                     );
                     // Add timeout for safety
@@ -125,7 +122,7 @@
 {#await Promise.resolve() then _}
     <ArmApi bind:ArmAPI={armAPI} />
 {/await}
-<div class="absolute top-0 left-0">
+<div class="absolute top-0 left-0 w-screen">
     <pre>{debugLog.join("\n")}</pre>
 </div>
 <div class="w-screen h-screen flex flex-col items-center justify-center pt-24" bind:clientHeight={screenOffset}>
@@ -140,11 +137,11 @@
             {/if}
         </div>
         <div class="relative -mt-1.5">
-            <input name="email" type="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" value={form?.data.email}/>
+            <input name="email" type="email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" bind:value={email}/>
             <label for="floating_outlined" class="rounded-lg pointer-events-none absolute text-sm text-gray-500 dark:text-gray-200 {form?.error ? "duration-0" : "duration-200"} transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><User/> Login (@edu.mirea.ru)</label>
         </div>
         <div class="relative">
-            <input name="password" type={showPassword ? "text" : "password"} class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" value={form?.data.password}/>
+            <input name="password" type={showPassword ? "text" : "password"} class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 dark:text-gray-200 bg-transparent rounded-lg border-1 border-black dark:border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" bind:value={password}/>
             <label for="floating_outlined" class="rounded-lg pointer-events-none absolute text-sm text-gray-500 dark:text-gray-200 {form?.error ? "duration-0" : "duration-200"} transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-black px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 flex flex-row gap-2.5"><RectangleEllipsis /> Password</label>
             <button type="button" class="absolute right-3 top-3.5" onclick={() => showPassword = !showPassword}>
                 {#if showPassword}

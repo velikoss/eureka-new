@@ -10,12 +10,12 @@ export async function POST({ request, cookies }) {
     const {email, password, key} = await request.json();
     let newKey = key;
     const session = cookies.get('sessionID');
-    let version = await new Promise((resolve) => {
-        sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"getStudentArmVersion","arm_task_id":"newChallenge_${uuidv4()}","v":173}`, (data) => {
-            resolve(data.data);
-        });
-    });
-    console.log(version);
+    // let version = await new Promise((resolve) => {
+    //     sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"getStudentArmVersion","arm_task_id":"newChallenge_${uuidv4()}","v":173}`, (data) => {
+    //         resolve(data.data);
+    //     });
+    // });
+    // console.log(version);
     if (!key) {
         let challenge = await new Promise((resolve) => {
             sendMessageToWebSocketServer(session, `{"data":{},"ser_task":"newChallenge","arm_task_id":"newChallenge_${uuidv4()}","v":${version}}`, (data) => {
@@ -44,7 +44,7 @@ export async function POST({ request, cookies }) {
         }
     }
     const response = await new Promise((resolve, reject) => {
-        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${newKey}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"${(Math.random() * 10000000).toFixed(0)}","v":${version}}`, (data) => {
+        sendMessageToWebSocketServer(session, `{"data":{"user_id":"${email}","password":"${password}","key":"${newKey}","gen":0,"g2a":0},"ser_task":"authorize","arm_task_id":"${(Math.random() * 10000000).toFixed(0)}","v":${196}}`, (data) => {
             resolve(data);
         });
     });

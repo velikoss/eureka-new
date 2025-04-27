@@ -6,6 +6,7 @@ type WebSocketClientMetadata = {
     version: number;
     user: User | null;
     lastMessageReceivedTime: number | null;
+    lastTaskId: number; // Add this field to track the last task ID
 };
 
 export interface User {
@@ -49,7 +50,8 @@ export function getClient(clientId: string): WebSocketClientMetadata | undefined
             ws: null,
             user: existingConnection!.user,
             version: existingConnection!.version,
-            lastMessageReceivedTime: existingConnection!.lastMessageReceivedTime
+            lastMessageReceivedTime: existingConnection!.lastMessageReceivedTime,
+            lastTaskId: existingConnection!.lastTaskId
         };
     }
     return undefined;
@@ -70,7 +72,6 @@ export function connectToWebSocketServer(
         if (wsClients.has(re)) {
             const existingConnection = wsClients.get(re);
             if (existingConnection && existingConnection.ws?.readyState === WebSocket.OPEN) {
-                // console.log(`Client ${re} already connected.`);
                 resolve(existingConnection.ws);
                 return;
             } else {
@@ -81,17 +82,24 @@ export function connectToWebSocketServer(
         const ws = new WebSocket(serverUrl, { headers });
 
         ws.on('open', () => {
-            // console.log(`Connected to WebSocket server for client ${clientId}`);
             wsClients.set(re, {
-                ws, lastMessageReceivedTime: null,
+                ws, 
+                lastMessageReceivedTime: null,
                 version: 0,
-                user: null
+                user: null,
+                lastTaskId: -1 // Initialize task ID counter
             });
             const interval = setInterval(() => {
                 if ((Date.now() - (wsClients.get(re)?.lastMessageReceivedTime??0)) <= 15 * 60 * 1000) return;
                 ws.close();
                 clearInterval(interval);
             }, 60000)
+            setTimeout(() => {
+                sendMessageToWebSocketServer(re, `{"data":{},"ser_task":"getStudentArmVersion","arm_task_id":0,"v":196}`);
+                sendMessageToWebSocketServer(re, `{"data":{},"ser_task":"getAuthInstituteList","arm_task_id":1,"v":196}`);
+                sendMessageToWebSocketServer(re, `{"data":{"institute_id":"1","course":"1"},"ser_task":"getAuthGroupList","arm_task_id":2,"v":196}`);
+                sendMessageToWebSocketServer(re, `{"data":"","ser_task":"getAuthUserList","arm_task_id":3,"v":196}`);
+            }, 1000)
             resolve(ws);
         });
 
@@ -105,7 +113,6 @@ export function connectToWebSocketServer(
         });
 
         ws.on('close', () => {
-            // console.log(`WebSocket connection closed for client ${clientId}`);
             wsClients.delete(re);
 
             // Clean up callbacks for this client
@@ -117,7 +124,7 @@ export function connectToWebSocketServer(
         });
 
         ws.on('message', (message) => {
-            // console.log(`Received message from client ${clientId}:`, message.toString());
+            console.log(`Received message from client ${clientId}:`, message.toString());
 
             let parsedMessage;
             try {
@@ -130,14 +137,16 @@ export function connectToWebSocketServer(
             const { arm_task_id, success } = parsedMessage;
             if (!success) {
                 console.log(parsedMessage);
-                
             }
-            if (arm_task_id && callbackMap.has(arm_task_id)) {
-                const callback = callbackMap.get(arm_task_id);
+            
+            // The callback key now includes both client ID and task ID
+            const callbackKey = `${re}_${arm_task_id}`;
+            if (arm_task_id && callbackMap.has(callbackKey)) {
+                const callback = callbackMap.get(callbackKey);
                 if (callback) {
                     setTimeout(() => callback(parsedMessage), 0);
                 }
-                callbackMap.delete(arm_task_id);
+                callbackMap.delete(callbackKey);
             }
 
             const clientMetadata = wsClients.get(re);
@@ -168,22 +177,31 @@ export function sendMessageToWebSocketServer(
             return;
         }
 
-        const { arm_task_id } = parsedMessage;
-        if (!arm_task_id) {
-            console.error('No arm_task_id found in the message');
+        // Get the client metadata
+        const clientMetadata = wsClients.get(id);
+        if (!clientMetadata) {
+            console.error('Client metadata not found');
             return;
         }
 
+        // Increment and set the task ID
+        clientMetadata.lastTaskId += 1;
+        const taskId = clientMetadata.lastTaskId;
+        parsedMessage.arm_task_id = taskId;
+
+        const updatedMessage = JSON.stringify(parsedMessage);
+        const callbackKey = `${id}_${taskId}`; // Unique key combining client ID and task ID
+
         if (callback) {
-            callbackMap.set(arm_task_id, callback);
+            callbackMap.set(callbackKey, callback);
         }
 
-        ws.send(message, (error) => {
+        ws.send(updatedMessage, (error) => {
             if (error) {
                 console.error(`Failed to send message to client ${clientId}:`, error);
-                callbackMap.delete(arm_task_id);
+                callbackMap.delete(callbackKey);
             } else {
-                // console.log(`Message sent to client ${clientId}:`, message);
+                console.log(`Message sent to client ${clientId}:`, updatedMessage);
             }
         });
     } else {
@@ -207,7 +225,6 @@ export function closeWebSocketConnection(clientId: string): void {
     if (clientMetadata) {
         clientMetadata.ws?.close();
         wsClients.delete(clientId);
-        // console.log(`WebSocket connection for client ${clientId} closed.`);
     } else {
         console.error(`No WebSocket connection found for client ${clientId}.`);
     }
